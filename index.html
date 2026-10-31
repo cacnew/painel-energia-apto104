@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Painel de consumo de energia — Apto 104, SQN 406 Bl. B</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1c2430;--mut:#667085;--line:#e3e7ee;--acc:#2457d6;--warn:#b54708;--warnbg:#fff4e5;--bad:#b42318;--badbg:#fdecea;--ok:#067647;--okbg:#e8f6ee}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{padding:18px 24px 10px;background:var(--card);border-bottom:1px solid var(--line)}
+h1{margin:0;font-size:20px}h2{font-size:16px;margin:0 0 10px}h3{font-size:14px;margin:14px 0 6px}
+.sub{color:var(--mut);font-size:12.5px;margin-top:2px}
+.aviso{margin-top:8px;padding:8px 12px;border-radius:8px;background:var(--warnbg);color:var(--warn);font-size:12.5px}
+nav{display:flex;gap:4px;flex-wrap:wrap;padding:10px 24px 0;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+nav button{border:0;background:none;padding:9px 14px;font:inherit;color:var(--mut);cursor:pointer;border-bottom:3px solid transparent}
+nav button.on{color:var(--acc);border-color:var(--acc);font-weight:600}
+main{padding:16px 24px 40px;max-width:1280px;margin:auto}
+.filters{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:flex-end;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:14px}
+.fg{display:flex;flex-direction:column;gap:4px}.fg>label,.fg>span.l{font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:#fff;padding:6px 12px;font:inherit;cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border:0}.seg button.on{background:var(--acc);color:#fff}
+input[type=text],input[type=number],select{font:inherit;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:#fff}
+input[type=number]{width:80px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:3px 10px;cursor:pointer;background:#fff;font-size:12.5px;user-select:none}
+.chip i{width:10px;height:10px;border-radius:50%;display:inline-block}.chip.off{opacity:.4}
+.grid{display:grid;gap:14px}.g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}.g2{grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0}
+.kpi .v{font-size:26px;font-weight:700}.kpi .t{font-size:12px;color:var(--mut)}.kpi .n{font-size:12px;color:var(--mut);margin-top:2px}
+table{border-collapse:collapse;width:100%}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.03em;cursor:pointer;white-space:nowrap}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+tr.dim{opacity:.4}
+.bar{height:8px;border-radius:4px;background:var(--acc);min-width:1px}
+.tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11.5px}
+.tag.w{background:var(--warnbg);color:var(--warn)}.tag.b{background:var(--badbg);color:var(--bad)}.tag.o{background:var(--okbg);color:var(--ok)}
+svg text{font:11px system-ui,sans-serif;fill:#475467}
+.small{font-size:12px;color:var(--mut)}
+details{margin:6px 0}summary{cursor:pointer;font-weight:600}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal div{border:1px solid var(--line);border-radius:8px;padding:5px 6px;min-height:58px;font-size:12px;background:#fff}
+.cal .h{background:none;border:0;min-height:0;color:var(--mut);text-align:center;font-size:11.5px}
+.cal .we{background:#f1f5ff}.cal .t{outline:2px solid #f79009}
+.cal b{display:block;font-size:14px}
+.callout{border-left:4px solid var(--bad);background:var(--badbg);padding:8px 12px;border-radius:6px;margin:8px 0}
+.callout.w{border-color:#f79009;background:var(--warnbg)}.callout.o{border-color:var(--ok);background:var(--okbg)}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;font-size:12px}.legend span{display:inline-flex;gap:5px;align-items:center}.legend i{width:10px;height:10px;border-radius:2px}
+input[type=range]{width:110px}
+.hide{display:none}
+
+.card{overflow-x:auto}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media(max-width:700px){
+ body{font-size:13.5px}
+ header{padding:12px 14px 8px}h1{font-size:17px}
+ nav{padding:6px 8px 0;flex-wrap:nowrap;overflow-x:auto;gap:0}
+ nav button{padding:9px 11px;white-space:nowrap;font-size:13px}
+ main{padding:10px}
+ .filters{padding:10px;gap:10px}
+ .fg{width:100%}.fg input[type=text],.fg input[type=number]{width:100%}
+ .seg{display:flex;width:100%}.seg button{flex:1;padding:9px 4px;font-size:13px}
+ .chip{padding:6px 11px}
+ .g2,.g4{grid-template-columns:1fr}
+ .g4{grid-template-columns:1fr 1fr;gap:10px}.kpi .v{font-size:20px}
+ .card{padding:12px}
+ .card svg{min-width:520px}.card svg.fit{min-width:0}
+ table{font-size:12.5px}
+ #apt th:nth-child(3),#apt td:nth-child(3),#apt th:nth-child(8),#apt td:nth-child(8),#apt th:nth-child(6),#apt td:nth-child(6){display:none}
+ input[type=range]{width:80px}
+ .cal{gap:2px}.cal div{padding:3px;min-height:48px;font-size:10.5px}.cal b{font-size:12px}.cal .small{font-size:9.5px}
+ .tf{min-width:640px}
+}
+
+</style>
+</head>
+<body>
+<header>
+  <h1>Consumo de energia — SQN 406 Bl. B, apto 104 (Brasília/DF)</h1>
+  <div class="sub">Faturas Luz/Neoenergia jan–out/2026 · estimativa de carga por aparelho · testes de 28 a 31/10/2026 · medidor Dowertech DOW1310L nº 1630520</div>
+  <div class="aviso"><b>Estimativa de engenharia de cargas, não é medição nem laudo.</b> Os valores de geladeira, cervejeira, adega e freezer vêm de faixas de etiqueta/anúncio e têm a maior incerteza. Use os controles para ajustar horas de uso e refazer a conta.</div>
+</header>
+<nav id="tabs"></nav>
+<main>
+  <section id="filters" class="filters"></section>
+  <div id="view"></div>
+</main>
+
+<script>
+/* ===================== DADOS ===================== */
+const CATS={ref:{n:'Refrigeração 24 h',c:'#2457d6'},ban:{n:'Banho',c:'#d9480f'},coz:{n:'Cozinha',c:'#e8a200'},ent:{n:'Entretenimento',c:'#7a3fd1'},cli:{n:'Climatização',c:'#0e9aa7'},luz:{n:'Iluminação e stand-by',c:'#5b6b82'},out:{n:'Outros',c:'#2e9e5b'}};
+const PROF={ // pesos por hora (0..23)
+ flat:Array(24).fill(1),
+ banho:h=>({6:.3,21:.7}[h]||0),
+ noite:h=>h>=19&&h<=23?1:(h>=5&&h<=6?.5:0),
+ tv:h=>h>=19&&h<=23?1:0,
+ tvfds:h=>(h>=9&&h<=23)?1:0,
+ vent:h=>(h>=20||h<=6)?1:0,
+ luz:h=>(h>=17&&h<=23)?1:(h>=5&&h<=6?.6:0),
+ almoco:h=>({12:.5,13:.5,19:.7,20:.3}[h]||0),
+ cafe:h=>({6:.7,15:.3}[h]||0),
+ micro:h=>({6:.3,19:.5,20:.2}[h]||0),
+ lav:h=>(h>=16&&h<=19)?1:0,
+ umid:h=>(h>=22||h<=6)?1:0,
+ fim:h=>(h>=9&&h<=22)?1:0,
+ ref:Array.from({length:24},(_,h)=>h>=12&&h<=18?1.25:(h<=6?.85:1))
+};
+const A=[ // id,nome,cat,low,typ,high (kWh/mês), s = fração da semana consumida no sáb+dom, perfil, base
+{id:'chu',n:'Chuveiro 6.800 W (banho diário da Lívia)',cat:'ban',lo:9.6,ty:24,hi:40.8,s:2/7,p:'banho',b:'1 banho/dia: 4 min a 4,8 kW · 8 min a 6 kW · 12 min a 6,8 kW'},
+{id:'chc',n:'Chuveiro — banhos extras do Carlos (fim de semana)',cat:'ban',lo:0,ty:3.2,hi:9.1,s:1,p:'banho',b:'~4 banhos/mês de 8 min (alto: 8 de 10 min a 6,8 kW)'},
+{id:'ger',n:'Geladeira Consul CRE44 (~450 L)',cat:'ref',lo:35,ty:48,hi:70,s:2/7,p:'ref',b:'Selo A típico 30–60 kWh/mês. Valor exato NÃO confirmado — conferir etiqueta'},
+{id:'cer',n:'Cervejeira Venax Blue Light 100 L',cat:'ref',lo:33,ty:58,hi:70,s:2/7,p:'ref',b:'Anúncio: 696 kWh/ano (58/mês); review: ~33/mês. 200 W nominais, compressor cicla'},
+{id:'ade',n:'Adega Oster OADE180 (18 garrafas)',cat:'ref',lo:25,ty:40,hi:55,s:2/7,p:'flat',b:'130 W nominais (não 1.300 W). Ligada 24 h'},
+{id:'fre',n:'Freezer EOS EFV70 (66 L)',cat:'ref',lo:12,ty:20,hi:30,s:2/7,p:'ref',b:'100 W nominais, compressor ~25–30% do tempo'},
+{id:'pur',n:'Purificador de água Everest Soft Fit',cat:'ref',lo:4.95,ty:4.95,hi:10,s:2/7,p:'flat',b:'Etiqueta: 4,95 kWh/mês'},
+{id:'stb',n:'Roteador/modem + stand-by (TVs, carregadores)',cat:'luz',lo:12,ty:20,hi:32,s:2/7,p:'flat',b:'~25–40 W contínuos'},
+{id:'led',n:'Iluminação LED',cat:'luz',lo:5.4,ty:12,hi:21,s:2/7,p:'luz',b:'~100 W médios, ~4 h/noite'},
+{id:'ven',n:'Ventilador Britânia 40 cm',cat:'cli',lo:4.7,ty:14.2,hi:18.9,s:.3,p:'vent',b:'Etiqueta 2,36 kWh/mês por 1 h/dia → 2 a 8 h/dia em dias quentes'},
+{id:'umi',n:'Umidificador Ventisol U-04 (25 W)',cat:'cli',lo:2,ty:3,hi:7.5,s:2/7,p:'umid',b:'8 h/noite, ~15 noites/mês'},
+{id:'arc',n:'Ar-condicionado (uso raro)',cat:'cli',lo:0,ty:0,hi:40,s:2/7,p:'noite',b:'Sem uso = 0. Um mês com ~20 h de uso ≈ 40 kWh. Marque/ajuste para simular'},
+{id:'t43',n:'TV Samsung 43" (quarto)',cat:'ent',lo:5.4,ty:10.5,hi:18.9,s:.3,p:'tv',b:'~70 W, ~5 h/dia'},
+{id:'t55',n:'TV Samsung 55" (sala, fins de semana)',cat:'ent',lo:2.3,ty:4.7,hi:9.6,s:.9,p:'tvfds',b:'~110 W, ~10 h/semana'},
+{id:'for',n:'Forno elétrico',cat:'coz',lo:4.8,ty:6.4,hi:16,s:.6,p:'almoco',b:'~1.500 W, ~1 h/semana com pré-aquecimento'},
+{id:'air',n:'Air fryer',cat:'coz',lo:1.8,ty:3.6,hi:7.2,s:1,p:'almoco',b:'~1.500 W, 25 min, 4–9 usos/mês nos fins de semana'},
+{id:'mic',n:'Micro-ondas',cat:'coz',lo:1.1,ty:3.1,hi:6.6,s:.25,p:'micro',b:'1.300 W, poucos minutos por uso'},
+{id:'caf',n:'Cafeteira Oster OCAF550 (900 W)',cat:'coz',lo:1.4,ty:2.9,hi:4.5,s:.3,p:'cafe',b:'~15 min, ~3×/semana'},
+{id:'cha',n:'Chaleira Cadence CEL314 (1.150 W)',cat:'coz',lo:.4,ty:1.2,hi:2.5,s:.3,p:'cafe',b:'~5 min, ~3×/semana'},
+{id:'lav',n:'Lava e seca Samsung WD11A4453BW (só lavagem fria)',cat:'out',lo:.6,ty:2.6,hi:4.3,s:.35,p:'lav',b:'~0,15–0,5 kWh/ciclo, 2×/semana, sem secagem (a secagem custaria 2–4 kWh por ciclo)'},
+{id:'div',n:'Diversos (notebook, celulares, ferro, secador)',cat:'out',lo:5,ty:10,hi:18,s:2/7,p:'noite',b:'Estimativa genérica'}
+];
+const FAT=[ // mês, kWh, semLuz, ajustes, total, fechada, arquivo, fonte
+{m:'Dez/25',k:275,sl:null,aj:null,tot:289.33,fe:null,arq:'(citada na fatura de jan)',f:'luz'},
+{m:'Jan',k:295,sl:315.11,aj:0,tot:296.20,fe:'17/01',arq:'fatura (7).pdf',f:'luz'},
+{m:'Fev',k:253,sl:291.44,aj:-100,tot:173.95,fe:'14/02',arq:'fatura (6).pdf',f:'luz'},
+{m:'Mar',k:277,sl:319.19,aj:0,tot:300.04,fe:'19/03',arq:'fatura (5).pdf',f:'luz'},
+{m:'Abr',k:245,sl:280.50,aj:0,tot:263.52,fe:'16/04',arq:'fatura (4).pdf',f:'luz'},
+{m:'Mai',k:245,sl:280.50,aj:0,tot:263.52,fe:'16/04',arq:'fatura (3).pdf',f:'luz',flag:'dup'},
+{m:'Jun',k:null,sl:null,aj:null,tot:null,fe:null,arq:'— não existe —',f:'luz',flag:'falta'},
+{m:'Jul',k:265,sl:309.40,aj:95.92,tot:386.68,fe:'29/07',arq:'fatura (1)/(2).pdf (idênticas)',f:'luz',flag:'aj'},
+{m:'Ago',k:202,sl:221.30,aj:-56.72,tot:150.24,fe:'16/08',arq:'fatura.pdf',f:'luz',flag:'aj'},
+{m:'Set',k:401,sl:null,aj:null,tot:487.39,fe:null,arq:'só no dossiê',f:'neo'},
+{m:'Out',k:366,sl:null,aj:null,tot:432.12,fe:null,arq:'só no dossiê',f:'neo'}
+];
+// dias entre fechamentos consecutivos de fatura (proxy do ciclo; fechamento da Luz NÃO é data de leitura)
+const CICLO={Fev:28,Mar:33,Abr:28,Ago:18};
+const LEIT=[{d:'28/10',k:16894},{d:'29/10',k:16898},{d:'30/10',k:16901},{d:'31/10',k:16911}];
+
+/* ===================== ESTADO ===================== */
+const S={tab:'geral',scen:'ty',per:'mes',dt:'media',tar:1.18,cats:new Set(Object.keys(CATS)),q:'',off:new Set(),scale:{},sort:'v',asc:false,fmode:'kwh'};
+A.forEach(a=>S.scale[a.id]=1);
+const f1=x=>x.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1});
+const f2=x=>x.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const brl=x=>'R$ '+f2(x);
+const SC={lo:'baixo',ty:'típico',hi:'alto'};
+
+/* ===================== CÁLCULO ===================== */
+const mensal=a=>S.off.has(a.id)?0:a[S.scen]*S.scale[a.id];
+function periodo(a){
+  const M=mensal(a),sem=M*7/30;
+  if(S.per==='mes')return M;
+  if(S.per==='sem')return sem;
+  if(S.dt==='util')return sem*(1-a.s)/5;
+  if(S.dt==='fds')return sem*a.s/2;
+  return M/30;
+}
+const perLabel=()=>S.per==='mes'?'mês (30 dias)':S.per==='sem'?'semana':S.dt==='util'?'dia útil':S.dt==='fds'?'dia de fim de semana':'dia (média)';
+const unit=()=>S.per==='mes'?'kWh/mês':S.per==='sem'?'kWh/semana':'kWh/dia';
+const vis=a=>S.cats.has(a.cat)&&(!S.q||(a.n+' '+CATS[a.cat].n).toLowerCase().includes(S.q.toLowerCase()));
+const lista=()=>A.filter(vis).map(a=>({a,v:periodo(a)}));
+const tot=l=>l.reduce((s,x)=>s+x.v,0);
+function hora(a,dayKWh){const w=PROF[a.p];const arr=Array.isArray(w)?w:Array.from({length:24},(_,h)=>w(h));const s=arr.reduce((x,y)=>x+y,0)||1;return arr.map(x=>dayKWh*x/s)}
+function diaKWh(a,tipo){const M=mensal(a),sem=M*7/30;return tipo==='util'?sem*(1-a.s)/5:tipo==='fds'?sem*a.s/2:M/30}
+
+/* ===================== SVG ===================== */
+function barH(items,{fmt=f1,w=560}={}){
+  const rh=22,pad=4,lw=210,H=items.length*rh+pad*2,max=Math.max(...items.map(i=>i.v),0.0001);
+  let s=`<svg viewBox="0 0 ${w} ${H}" width="100%">`;
+  items.forEach((it,i)=>{const y=pad+i*rh,bw=(w-lw-60)*it.v/max;
+    s+=`<g><title>${it.l}: ${fmt(it.v)}</title><text x="${lw-6}" y="${y+14}" text-anchor="end">${it.l.length>34?it.l.slice(0,33)+'…':it.l}</text><rect x="${lw}" y="${y+3}" width="${Math.max(bw,1)}" height="14" rx="3" fill="${it.c}"/><text x="${lw+bw+5}" y="${y+14}">${fmt(it.v)}</text></g>`});
+  return s+'</svg>';
+}
+function donut(items){
+  const T=items.reduce((s,i)=>s+i.v,0)||1,r=70,R=100,cx=110,cy=110;let a0=-Math.PI/2,s=`<svg class="fit" viewBox="0 0 440 220" width="100%">`;
+  items.forEach(it=>{if(it.v<=0)return;const a1=a0+2*Math.PI*it.v/T,lg=a1-a0>Math.PI?1:0;
+    const p=(r_,a)=>[cx+r_*Math.cos(a),cy+r_*Math.sin(a)];
+    const [x0,y0]=p(R,a0),[x1,y1]=p(R,a1-.0001),[x2,y2]=p(r,a1-.0001),[x3,y3]=p(r,a0);
+    s+=`<path d="M${x0},${y0} A${R},${R} 0 ${lg} 1 ${x1},${y1} L${x2},${y2} A${r},${r} 0 ${lg} 0 ${x3},${y3}Z" fill="${it.c}"><title>${it.l}: ${f1(it.v)} (${(100*it.v/T).toFixed(0)}%)</title></path>`;a0=a1});
+  s+=`<text x="${cx}" y="${cy-2}" text-anchor="middle" style="font-size:18px;font-weight:700;fill:#1c2430">${f1(T)}</text><text x="${cx}" y="${cy+14}" text-anchor="middle">${unit()}</text>`;
+  items.forEach((it,i)=>{const y=40+i*24;s+=`<rect x="240" y="${y-9}" width="11" height="11" rx="2" fill="${it.c}"/><text x="258" y="${y}">${it.l}</text><text x="430" y="${y}" text-anchor="end">${(100*it.v/T).toFixed(0)}%</text>`});
+  return s+'</svg>';
+}
+function colsV(vals,{labels,colors,h=190,w=620,fmt=f1,line=null,hl=null}){
+  const n=vals.length,pl=34,pb=24,pt=14,bw=(w-pl)/n,max=Math.max(...vals.map(v=>v||0),line||0)*1.12||1;
+  let s=`<svg viewBox="0 0 ${w} ${h}" width="100%">`;
+  for(let g=0;g<=4;g++){const y=pt+(h-pt-pb)*(1-g/4);s+=`<line x1="${pl}" x2="${w}" y1="${y}" y2="${y}" stroke="#e3e7ee"/><text x="${pl-4}" y="${y+4}" text-anchor="end">${fmt(max*g/4)}</text>`}
+  vals.forEach((v,i)=>{const x=pl+i*bw+bw*.15,bh=v==null?0:(h-pt-pb)*v/max,y=h-pb-bh;
+    if(v==null)s+=`<text x="${x+bw*.35}" y="${h-pb-6}" text-anchor="middle" style="fill:#b42318">sem dado</text>`;
+    else s+=`<rect x="${x}" y="${y}" width="${bw*.7}" height="${bh}" rx="3" fill="${colors[i]}"${hl&&hl[i]?' stroke="#b42318" stroke-width="2"':''}><title>${labels[i]}: ${fmt(v)}</title></rect><text x="${x+bw*.35}" y="${y-3}" text-anchor="middle">${fmt(v)}</text>`;
+    s+=`<text x="${x+bw*.35}" y="${h-8}" text-anchor="middle">${labels[i]}</text>`});
+  if(line!=null){const y=pt+(h-pt-pb)*(1-line/max);s+=`<line x1="${pl}" x2="${w}" y1="${y}" y2="${y}" stroke="#b42318" stroke-dasharray="5 4" stroke-width="1.6"/><text x="${w-4}" y="${y-4}" text-anchor="end" style="fill:#b42318">modelo ${S_()}: ${fmt(line)}</text>`}
+  return s+'</svg>';
+}
+const S_=()=>SC[S.scen];
+function stacked24(){
+  const l=A.filter(vis).filter(a=>!S.off.has(a.id));const tipo=S.dt==='media'&&S.per!=='dia'?'media':S.dt;
+  const hrs=Array.from({length:24},()=>({}));let T=Array(24).fill(0);
+  l.forEach(a=>{hora(a,diaKWh(a,tipo)).forEach((v,h)=>{hrs[h][a.cat]=(hrs[h][a.cat]||0)+v;T[h]+=v})});
+  const w=640,h=240,pl=34,pb=26,pt=10,bw=(w-pl)/24,max=Math.max(...T,.01)*1.1;let s=`<svg viewBox="0 0 ${w} ${h}" width="100%">`;
+  for(let g=0;g<=4;g++){const y=pt+(h-pt-pb)*(1-g/4);s+=`<line x1="${pl}" x2="${w}" y1="${y}" y2="${y}" stroke="#e3e7ee"/><text x="${pl-4}" y="${y+4}" text-anchor="end">${(max*g/4).toFixed(2)}</text>`}
+  // faixa ausente 7-15
+  s+=`<rect x="${pl+7*bw}" y="${pt}" width="${8*bw}" height="${h-pt-pb}" fill="#f2f4f7" opacity=".6"/><text x="${pl+11*bw}" y="${pt+12}" text-anchor="middle">fora de casa (7h–15h)</text>`;
+  hrs.forEach((c,hh)=>{let y=h-pb;Object.keys(CATS).forEach(k=>{const v=c[k]||0;if(!v)return;const bh=(h-pt-pb)*v/max;y-=bh;s+=`<rect x="${pl+hh*bw+1}" y="${y}" width="${bw-2}" height="${bh}" fill="${CATS[k].c}"><title>${hh}h — ${CATS[k].n}: ${(v*1000).toFixed(0)} Wh</title></rect>`});
+    s+=`<text x="${pl+hh*bw+bw/2}" y="${h-10}" text-anchor="middle">${hh}</text>`});
+  return {svg:s+'</svg>',T,tipo};
+}
+const legCats=()=>`<div class="legend">${Object.entries(CATS).map(([k,c])=>`<span><i style="background:${c.c}"></i>${c.n}</span>`).join('')}</div>`;
+
+/* ===================== FILTROS ===================== */
+function seg(id,opts,cur){return `<div class="seg" id="${id}">${opts.map(([v,t])=>`<button data-v="${v}" class="${v===cur?'on':''}">${t}</button>`).join('')}</div>`}
+function renderFilters(){
+  const el=document.getElementById('filters');
+  const aparelho=['geral','apar','horas','semana'].includes(S.tab);
+  if(!aparelho){el.innerHTML=`<div class="fg"><span class="l">Cenário do modelo</span>${seg('sc',[['lo','Baixo'],['ty','Típico'],['hi','Alto']],S.scen)}</div><div class="fg"><label>Tarifa (R$/kWh)</label><input type="number" step="0.01" id="tar" value="${S.tar}"></div>`;}
+  else el.innerHTML=`
+  <div class="fg"><span class="l">Cenário</span>${seg('sc',[['lo','Baixo'],['ty','Típico'],['hi','Alto']],S.scen)}</div>
+  ${S.tab==='horas'||S.tab==='semana'?'':`<div class="fg"><span class="l">Período</span>${seg('pe',[['dia','Dia'],['sem','Semana'],['mes','Mês']],S.per)}</div>`}
+  ${(S.per==='dia'&&S.tab!=='semana')||S.tab==='horas'?`<div class="fg"><span class="l">Tipo de dia</span>${seg('dt',[['util','Útil (seg–sex)'],['fds','Sáb/Dom'],['media','Média']],S.dt)}</div>`:''}
+  <div class="fg"><label>Tarifa (R$/kWh)</label><input type="number" step="0.01" id="tar" value="${S.tar}"></div>
+  <div class="fg"><label>Buscar aparelho</label><input type="text" id="q" value="${S.q}" placeholder="ex.: chuveiro" style="width:150px"></div>
+  <div class="fg" style="flex:1 1 300px"><span class="l">Categorias (clique para ligar/desligar)</span><div class="chips">${Object.entries(CATS).map(([k,c])=>`<span class="chip ${S.cats.has(k)?'':'off'}" data-c="${k}"><i style="background:${c.c}"></i>${c.n}</span>`).join('')}</div></div>`;
+  const bind=(id,fn)=>{const e=document.getElementById(id);if(e)e.querySelectorAll('button').forEach(b=>b.onclick=()=>{fn(b.dataset.v);renderFilters();render()})};
+  bind('sc',v=>S.scen=v);bind('pe',v=>S.per=v);bind('dt',v=>S.dt=v);
+  const t=document.getElementById('tar');if(t)t.oninput=()=>{S.tar=parseFloat(t.value)||0;render()};
+  const q=document.getElementById('q');if(q)q.oninput=()=>{S.q=q.value;render()};
+  el.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{const k=c.dataset.c;S.cats.has(k)?S.cats.delete(k):S.cats.add(k);renderFilters();render()});
+}
+
+/* ===================== ABAS ===================== */
+const TABS=[['geral','Visão geral'],['apar','Por aparelho'],['horas','Horas do dia'],['semana','Semana e mês'],['fat','Faturas'],['teste','Testes de outubro'],['achados','Achados e pendências']];
+function renderTabs(){const n=document.getElementById('tabs');n.innerHTML=TABS.map(([k,t])=>`<button data-k="${k}" class="${S.tab===k?'on':''}">${t}</button>`).join('');
+ n.querySelectorAll('button').forEach(b=>b.onclick=()=>{S.tab=b.dataset.k;renderTabs();renderFilters();render()})}
+const totalMes=()=>A.reduce((s,a)=>s+mensal(a),0);
+const refMes=()=>A.filter(a=>a.cat==='ref'||a.id==='stb').reduce((s,a)=>s+mensal(a),0);
+
+function vGeral(){
+  const l=lista(),T=tot(l),all=totalMes(),m=A.filter(vis).reduce((s,a)=>s+mensal(a),0);
+  const cat=Object.keys(CATS).map(k=>({l:CATS[k].n,c:CATS[k].c,v:l.filter(x=>x.a.cat===k).reduce((s,x)=>s+x.v,0)})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
+  const top=l.slice().sort((a,b)=>b.v-a.v).slice(0,12).map(x=>({l:x.a.n.replace(/ \(.*\)/,''),v:x.v,c:CATS[x.a.cat].c}));
+  const media=255;
+  return `<div class="grid g4">
+   <div class="card kpi"><div class="t">Consumo do filtro — ${perLabel()}</div><div class="v">${f1(T)} kWh</div><div class="n">${brl(T*S.tar)} a ${f2(S.tar)} R$/kWh</div></div>
+   <div class="card kpi"><div class="t">Total de todos os aparelhos / mês (${S_()})</div><div class="v">${f1(all)} kWh</div><div class="n">${brl(all*S.tar)} · ${f1(all/30)} kWh/dia</div></div>
+   <div class="card kpi"><div class="t">Refrigeração + stand-by 24 h</div><div class="v">${f1(refMes())} kWh/mês</div><div class="n">${(100*refMes()/(all||1)).toFixed(0)}% do total, roda mesmo sem ninguém em casa</div></div>
+   <div class="card kpi"><div class="t">Média faturada jan–ago</div><div class="v">${media} kWh/mês</div><div class="n">modelo ${S_()} está ${all>media?'+':''}${f1(all-media)} kWh (${(100*(all-media)/media).toFixed(0)}%) em relação a ela</div></div>
+  </div>
+  <div class="grid g2" style="margin-top:14px">
+   <div class="card"><h2>Por categoria — ${perLabel()}</h2>${donut(cat)}</div>
+   <div class="card"><h2>Maiores consumidores — ${unit()}</h2>${barH(top)}</div>
+  </div>
+  <div class="card" style="margin-top:14px"><h2>Modelo × consumo faturado</h2>${colsV(FAT.filter(f=>f.f==='luz'&&f.m!=='Dez/25'||f.f==='neo').map(f=>f.k),{labels:FAT.filter(f=>f.f==='luz'&&f.m!=='Dez/25'||f.f==='neo').map(f=>f.m),colors:FAT.filter(f=>f.f==='luz'&&f.m!=='Dez/25'||f.f==='neo').map(f=>f.flag==='dup'?'#e8a200':f.f==='neo'?'#b42318':'#2457d6'),line:all,fmt:x=>Math.round(x)+''})}
+   <div class="small">Barras azuis: faturas da Luz · amarela: maio (cópia de abril) · vermelhas: Neoenergia (set/out, valores do dossiê). A linha tracejada é o total estimado por aparelho no cenário ${S_()}.</div>
+   ${all<=450?'':''}</div>
+  <div class="callout o"><b>Leitura rápida:</b> pelas cargas informadas, 255 kWh/mês é plausível (modelo típico ≈ 292). Set (401) e out (366) só se explicam com vários itens no limite alto ao mesmo tempo. Ligue o ar-condicionado e o cenário "Alto" para ver o que seria preciso. O ponto a investigar é a <b>variação e o faturamento</b>, na aba Faturas.</div>`;
+}
+
+function vApar(){
+  const rows=A.filter(vis).map(a=>({a,v:periodo(a),m:mensal(a)}));
+  const k=S.sort;rows.sort((x,y)=>{const g=r=>k==='n'?r.a.n:k==='c'?CATS[r.a.cat].n:k==='r'?r.v*S.tar:r.v;return (g(x)>g(y)?1:-1)*(S.asc?1:-1)});
+  const T=tot(rows),max=Math.max(...rows.map(r=>r.v),.0001);
+  return `<div class="card"><h2>Detalhamento por aparelho — ${perLabel()}</h2>
+  <div class="small" style="margin-bottom:6px">Desmarque para tirar do cálculo. O controle "uso" multiplica o consumo (0% a 300%): ex. 200% = o dobro de horas de uso.</div>
+  <table id="apt"><thead><tr><th></th><th data-s="n">Aparelho</th><th data-s="c">Categoria</th><th data-s="v" class="r">${unit()}</th><th data-s="r" class="r">R$</th><th class="r">% do filtro</th><th>Uso</th><th></th></tr></thead><tbody>
+  ${rows.map(r=>`<tr class="${S.off.has(r.a.id)?'dim':''}"><td><input type="checkbox" data-on="${r.a.id}" ${S.off.has(r.a.id)?'':'checked'}></td>
+   <td><b>${r.a.n}</b><div class="small">${r.a.b}</div><div class="small">faixa/mês: ${f1(r.a.lo)} · <b>${f1(r.a.ty)}</b> · ${f1(r.a.hi)} kWh</div></td>
+   <td><span class="chip" style="cursor:default"><i style="background:${CATS[r.a.cat].c}"></i>${CATS[r.a.cat].n}</span></td>
+   <td class="r"><b>${f2(r.v)}</b></td><td class="r">${brl(r.v*S.tar)}</td><td class="r">${(100*r.v/(T||1)).toFixed(1)}%</td>
+   <td><input type="range" min="0" max="3" step="0.05" value="${S.scale[r.a.id]}" data-sc="${r.a.id}"> <span class="small" id="sv-${r.a.id}">${Math.round(S.scale[r.a.id]*100)}%</span></td>
+   <td style="width:120px"><div class="bar" style="width:${100*r.v/max}%;background:${CATS[r.a.cat].c}"></div></td></tr>`).join('')}
+  </tbody><tfoot><tr><td></td><td><b>Total do filtro</b></td><td></td><td class="r"><b>${f2(T)}</b></td><td class="r"><b>${brl(T*S.tar)}</b></td><td class="r">100%</td><td colspan="2"></td></tr></tfoot></table>
+  <div style="margin-top:8px"><button class="chip" id="reset">Restaurar uso 100% e religar todos</button></div></div>`;
+}
+
+function vHoras(){
+  const {svg,T,tipo}=stacked24();const tot_=T.reduce((x,y)=>x+y,0);
+  const out=T.slice(7,15).reduce((x,y)=>x+y,0);const pico=T.indexOf(Math.max(...T));
+  return `<div class="card"><h2>Perfil de consumo ao longo do dia — ${tipo==='util'?'dia útil':tipo==='fds'?'sáb/dom':'média'} (kWh por hora)</h2>${svg}${legCats()}
+  <div class="grid g4" style="margin-top:12px">
+   <div class="card kpi"><div class="t">Total do dia</div><div class="v">${f2(tot_)} kWh</div><div class="n">${brl(tot_*S.tar)}</div></div>
+   <div class="card kpi"><div class="t">Enquanto está fora (7h–15h)</div><div class="v">${f2(out)} kWh</div><div class="n">${(100*out/(tot_||1)).toFixed(0)}% — só refrigeração e stand-by</div></div>
+   <div class="card kpi"><div class="t">Hora de pico</div><div class="v">${pico}h–${pico+1}h</div><div class="n">${(T[pico]*1000).toFixed(0)} Wh ≈ ${(T[pico]*1000).toFixed(0)} W médios</div></div>
+   <div class="card kpi"><div class="t">Potência média do dia</div><div class="v">${(tot_*1000/24).toFixed(0)} W</div><div class="n">linha de base à noite: ${(Math.min(...T.slice(0,6))*1000).toFixed(0)} W</div></div>
+  </div>
+  <div class="small" style="margin-top:8px">Rotina assumida: trabalha 7h–12h, ausente até ~15h, em casa das 15h até o dia seguinte; 1 banho por dia (~21h, parte às 6h). Os horários de cada aparelho são premissas; ajuste na aba "Por aparelho".</div></div>`;
+}
+
+function vSemana(){
+  const l=A.filter(vis).filter(a=>!S.off.has(a.id));
+  const dias=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+  const val=dias.map((d,i)=>l.reduce((s,a)=>s+diaKWh(a,i<5?'util':'fds'),0));
+  const semT=val.reduce((a,b)=>a+b,0);
+  const porCat=Object.keys(CATS).map(k=>({k,u:l.filter(a=>a.cat===k).reduce((s,a)=>s+diaKWh(a,'util'),0),f:l.filter(a=>a.cat===k).reduce((s,a)=>s+diaKWh(a,'fds'),0)})).filter(x=>x.u+x.f>0);
+  // outubro/2026: 1º = quinta
+  const obs={29:4,30:3,31:10};
+  let cal=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'].map(d=>`<div class="h">${d}</div>`).join('')+'<div style="visibility:hidden"></div>'.repeat(3);
+  for(let d=1;d<=31;d++){const dow=(d+2)%7;const we=dow>=5;const v=l.reduce((s,a)=>s+diaKWh(a,we?'fds':'util'),0);
+    cal+=`<div class="${we?'we':''} ${obs[d]!=null?'t':''}"><span class="small">${d}</span><b>${f1(v)}</b>${obs[d]!=null?`<span class="small">medido: ${obs[d]}</span>`:''}</div>`}
+  const mes=val.reduce((a,b)=>a+b,0)/7*30;
+  return `<div class="grid g2"><div class="card"><h2>Semana típica — kWh por dia</h2>${colsV(val,{labels:dias,colors:val.map((_,i)=>i<5?'#2457d6':'#7a3fd1'),fmt:f2})}
+   <div class="small">Total da semana: <b>${f1(semT)} kWh</b> (${brl(semT*S.tar)}). Fim de semana pesa mais por Carlos, TV da sala, air fryer e forno.</div></div>
+   <div class="card"><h2>Dia útil × fim de semana, por categoria (kWh/dia)</h2>
+   <table><thead><tr><th>Categoria</th><th class="r">Útil</th><th class="r">Sáb/Dom</th><th class="r">Diferença</th></tr></thead><tbody>${porCat.map(x=>`<tr><td><i class="chip" style="padding:0 5px;border:0;background:${CATS[x.k].c}"> </i> ${CATS[x.k].n}</td><td class="r">${f2(x.u)}</td><td class="r">${f2(x.f)}</td><td class="r">${x.f-x.u>=0?'+':''}${f2(x.f-x.u)}</td></tr>`).join('')}</tbody></table></div></div>
+  <div class="card" style="margin-top:14px"><h2>Mês — outubro/2026 (kWh previstos por dia, cenário ${S_()})</h2><div class="cal">${cal}</div>
+   <div class="small" style="margin-top:8px">Contorno laranja: dias com leitura do medidor (valor medido = diferença para a leitura do dia anterior; o dia 30 é parcial e o 31 inclui o religamento total). Soma do mês no modelo: <b>${f1(l.reduce((s,a)=>s+mensal(a),0))}</b> kWh em 30 dias. Observação: o calendário usa a mesma curva para todas as semanas; o modelo não conhece a agenda real.</div></div>`;
+}
+
+function vFat(){
+  const L=FAT.filter(f=>f.k!=null&&f.m!=='Dez/25');
+  const all=totalMes();
+  const rows=FAT.map(f=>{
+    const kd=CICLO[f.m]&&f.k?f.k/CICLO[f.m]:null;
+    const tar=f.sl&&f.k?f.sl/f.k:(f.f==='neo'&&f.tot?f.tot/f.k:null);
+    const flag=f.flag==='dup'?'<span class="tag b">cópia de abril</span>':f.flag==='falta'?'<span class="tag b">sem fatura</span>':f.flag==='aj'?'<span class="tag w">ajuste</span>':f.m==='Set'||f.m==='Out'?'<span class="tag w">só no dossiê</span>':'<span class="tag o">ok</span>';
+    return `<tr><td><b>${f.m}</b></td><td class="r">${f.k??'—'}</td><td class="r">${f.sl?brl(f.sl):'—'}</td><td class="r">${f.aj==null?'—':(f.aj>0?'+':'')+f2(f.aj)}</td><td class="r"><b>${f.tot?brl(f.tot):'—'}</b></td><td class="r">${tar?f2(tar):'—'}</td><td>${f.fe||'—'}</td><td class="r">${kd?f1(kd):'—'}</td><td>${flag}</td><td class="small">${f.arq}</td></tr>`}).join('');
+  const vs=FAT.filter(f=>f.k!=null&&f.m!=='Dez/25');
+  const tarSerie=FAT.filter(f=>f.k&&(f.sl||f.f==='neo')).map(f=>({m:f.m,v:f.sl?f.sl/f.k:f.tot/f.k}));
+  return `<div class="card"><h2>Faturas mês a mês</h2>
+   <div style="overflow-x:auto"><table><thead><tr><th>Mês</th><th class="r">kWh</th><th class="r">Sem a Luz</th><th class="r">Ajustes</th><th class="r">Total</th><th class="r">R$/kWh*</th><th>Fechada em</th><th class="r">kWh/dia**</th><th>Situação</th><th>Arquivo</th></tr></thead><tbody>${rows}</tbody></table></div>
+   <div class="small">* Sem a Luz ÷ kWh (set/out: total ÷ kWh, inclui impostos e ajustes). ** Só onde há dois fechamentos consecutivos; fechamento da fatura da Luz não é data de leitura do medidor, serve só como indicação.</div></div>
+   <div class="grid g2" style="margin-top:14px">
+   <div class="card"><h2>kWh faturado × modelo</h2>${colsV(vs.map(f=>f.k),{labels:vs.map(f=>f.m),colors:vs.map(f=>f.flag==='dup'?'#e8a200':f.f==='neo'?'#b42318':'#2457d6'),line:all,fmt:x=>Math.round(x)+''})}</div>
+   <div class="card"><h2>Preço por kWh (R$)</h2>${colsV(tarSerie.map(x=>x.v),{labels:tarSerie.map(x=>x.m),colors:tarSerie.map(()=>'#5b6b82'),fmt:f2})}<div class="small">Sobe de 1,07 (jan) para 1,22 (set). Parte é bandeira/tarifa; só a fatura da Neoenergia mostra a composição.</div></div></div>
+   <div class="card" style="margin-top:14px"><h2>Conta dos ajustes</h2>
+    <table><tbody><tr><td>Jul: sem a Luz 309,40 − desconto 18,64 + ajuste 95,92</td><td class="r"><b>386,68</b></td></tr><tr><td>Ago: sem a Luz 221,30 − desconto 14,34 − ajuste 56,72 (bandeira −5,01 aparece no detalhe)</td><td class="r"><b>150,24</b></td></tr><tr><td>Líquido dos ajustes jul + ago</td><td class="r"><b>+39,20</b></td></tr></tbody></table>
+    <div class="small">As faturas dizem que "Outros acréscimos e deduções" são "bônus de indicação, ajustes de valores não cobrados em meses anteriores e parcelamentos", sem discriminar quanto é cada um.</div></div>`;
+}
+
+function vTeste(){
+  const geladeira=A.find(a=>a.id==='ger'),oth=['pur','stb'].map(i=>A.find(a=>a.id===i));
+  const d=a=>a[S.scen]/30*1;
+  const minimo=d(A.find(a=>a.id==='ger'))+d(A.find(a=>a.id==='pur'))+d(A.find(a=>a.id==='stb'))+d(A.find(a=>a.id==='led'))*0.7+d(A.find(a=>a.id==='t43'))*0.5;
+  const refrig=['cer','ade','fre'].reduce((s,i)=>s+d(A.find(a=>a.id===i)),0);
+  const banho=0.8*2*(S.scen==='lo'?.6:S.scen==='hi'?1.3:1), forno=1.5*(S.scen==='hi'?1.3:1), lav=.3;
+  const completo=minimo+refrig+banho+forno+lav;
+  const rows=[['28→29/10','4','Só geladeira + essenciais; cervejeira, adega, freezer, lavadora e ar desligados (desde 28/10 19h)',minimo],['29→30/10','3','Idem; leitura de 05h25 com disjuntores dos circuitos desligados, só a geladeira',minimo],['30→31/10','10','Tudo religado às 13h, 2 banhos, forno, lavadora',completo]];
+  return `<div class="grid g2"><div class="card"><h2>Leituras do medidor (energia ativa, kWh)</h2>
+  ${colsV([4,3,10],{labels:['28→29/10','29→30/10','30→31/10'],colors:['#2457d6','#2457d6','#b42318'],fmt:x=>x+' kWh'})}
+  <table><thead><tr><th>Data</th><th class="r">Leitura</th><th class="r">Δ</th></tr></thead><tbody>${LEIT.map((x,i)=>`<tr><td>${x.d}</td><td class="r">${x.k.toLocaleString('pt-BR')}</td><td class="r">${i?x.k-LEIT[i-1].k:'—'}</td></tr>`).join('')}</tbody></table>
+  <div class="small">Fotos de 31/10 com chave geral e DR desligados também mostram 16.911 kWh, sem alteração. Isso <b>não</b> prova ausência de consumo (duração desconhecida e resolução do visor).</div></div>
+  <div class="card"><h2>Teste × modelo (${S_()})</h2><table><thead><tr><th>Intervalo</th><th class="r">Medido</th><th class="r">Modelo</th><th>Cargas ligadas</th></tr></thead><tbody>
+  ${rows.map(r=>`<tr><td>${r[0]}</td><td class="r"><b>${r[1]}</b></td><td class="r">${f1(r[3])}</td><td class="small">${r[2]}</td></tr>`).join('')}</tbody></table>
+  <h3>Como o modelo chega nos números</h3>
+  <table><tbody><tr><td>Geladeira + purificador + stand-by + parte da iluminação e TV</td><td class="r">${f1(minimo)} kWh/dia</td></tr><tr><td>Cervejeira + adega + freezer religados</td><td class="r">${f1(refrig)} kWh/dia</td></tr><tr><td>2 banhos</td><td class="r">${f1(banho)} kWh</td></tr><tr><td>Forno + lavadora</td><td class="r">${f1(forno+lav)} kWh</td></tr><tr><td><b>Dia completo</b></td><td class="r"><b>${f1(completo)} kWh</b></td></tr></tbody></table>
+  <div class="callout o">${Math.abs(minimo-3.5)<=1.5?'O dia mínimo do modelo cai na faixa medida (3–4 kWh).':'O dia mínimo do modelo difere do medido (3–4 kWh); revise a geladeira.'} O dia completo ${Math.abs(completo-10)<=2.5?'também fica próximo dos 10 kWh medidos':'difere dos 10 kWh medidos'}. Os testes são compatíveis com as cargas: <b>não indicam defeito do medidor nem fuga</b>.</div></div></div>
+  <div class="callout w">Limitações: horários exatos não confirmados (a foto de 31/10 pode ser ~10h15), o intervalo 30→31 inclui ~30 min antes do religamento de 13h, e não há medição individual dos aparelhos.</div>`;
+}
+
+function vAchados(){
+  return `<div class="callout"><b>1. A fatura de "maio" é cópia da de abril.</b> Mesmos 245 kWh, R$ 263,52 e data de fechamento 16/04/2026; traz "consumo anterior 490 kWh" (245 + 245). Maio real não foi apurado ou foi lançado em duplicidade.</div>
+  <div class="callout"><b>2. Junho não tem fatura.</b> De 16/04 o fechamento salta para 29/07. Julho traz +R$ 95,92 de "ajustes de valores não cobrados em meses anteriores"; agosto traz −R$ 56,72. Líquido +R$ 39,20 sem demonstrativo.</div>
+  <div class="callout w"><b>3. Ciclos de duração desigual.</b> Fechamentos: 17/01, 14/02 (28 d), 19/03 (33 d), 16/04 (28 d), 29/07, 16/08 (<b>18 d</b>). Em agosto, 202 kWh em 18 dias dá ~11 kWh/dia, acima da média de ~8,4. Comparar kWh/dia, não kWh/mês. Setembro (401) seria 13,4 kWh/dia se o ciclo tiver 30 dias.</div>
+  <div class="callout w"><b>4. Volta da Luz para a Neoenergia (ago/2026).</b> Conferir se a leitura inicial da Neoenergia coincide com a final registrada pela Luz.</div>
+  <div class="callout w"><b>5. Fatura de agosto vence em 02/10/2026</b> (fechada em 16/08), fora do padrão das demais.</div>
+  <div class="callout o"><b>6. O consumo médio é plausível para as cargas.</b> 255 kWh/mês × modelo ~292. A refrigeração 24 h (geladeira, cervejeira, adega, freezer, purificador) sozinha é ~58% do total.</div>
+  <div class="callout o"><b>7. Testes de 28–31/10 batem com o modelo</b> (3–4 kWh/dia com poucas cargas; 10 kWh com tudo religado, 2 banhos, forno e lavadora).</div>
+  <div class="card"><h2>Hipóteses para o faturamento, em ordem</h2><ol>
+   <li>Maio duplicado, junho ausente e ajustes de jul/ago (pedir demonstrativo e leituras abr–jul).</li>
+   <li>Ciclos de duração diferente (comparar kWh/dia).</li>
+   <li>Leitura inicial da Neoenergia após a volta da Luz.</li>
+   <li>Leitura estimada por média seguida de acerto.</li>
+   <li>Bandeira tarifária e tributos (R$/kWh subiu de ~1,15 para ~1,22).</li>
+   <li>Fuga ou ligação cruzada: baixa probabilidade; depende do laudo da aferição.</li></ol></div>
+  <div class="card" style="margin-top:14px"><h2>O que falta</h2><ul>
+   <li>Faturas da <b>Neoenergia</b> de ago, set e out com leitura anterior, atual e dias do ciclo.</li>
+   <li>Faturas de <b>maio e junho</b> e o demonstrativo dos ajustes (+95,92 e −56,72).</li>
+   <li>Etiqueta Procel da <b>geladeira Consul</b>, da <b>adega</b> e da <b>cervejeira</b> (≈ 50% do total).</li>
+   <li>Laudo da <b>aferição do medidor</b> (previsão 03/11/2026, ordem 4100023564).</li>
+   <li>Wattímetro de tomada em cervejeira, adega e freezer por 24 h cada.</li>
+   <li>Leitura diária em horário fixo com anotação de banho, forno e lavadora.</li></ul></div>
+  <div class="card" style="margin-top:14px"><h2>Protocolos Neoenergia</h2><table><tbody>
+   <tr><td>30/09/2026</td><td>20260930350122589</td><td>Reclamação via 116 (consumo e medidor)</td></tr>
+   <tr><td>01/10/2026</td><td>8002399415</td><td>Atendimento via WhatsApp</td></tr>
+   <tr><td>01/10/2026</td><td>20261001350570471</td><td>Pedido de aferição do medidor</td></tr>
+   <tr><td>01/10/2026</td><td>4100023564</td><td>Ordem de serviço da aferição (prazo inicial 30 dias)</td></tr>
+   <tr><td>21/10/2026</td><td>8002692977</td><td>Atendimento; laudo previsto até 03/11/2026</td></tr>
+   <tr><td>21/10/2026</td><td>700000076854</td><td>Revisão de faturamento (5–10 dias úteis)</td></tr></tbody></table></div>`;
+}
+
+function render(){
+  const v=document.getElementById('view');
+  v.innerHTML=({geral:vGeral,apar:vApar,horas:vHoras,semana:vSemana,fat:vFat,teste:vTeste,achados:vAchados})[S.tab]();
+  v.querySelectorAll('[data-on]').forEach(c=>c.onchange=()=>{c.checked?S.off.delete(c.dataset.on):S.off.add(c.dataset.on);render()});
+  v.querySelectorAll('[data-sc]').forEach(r=>{r.oninput=()=>{S.scale[r.dataset.sc]=parseFloat(r.value);document.getElementById('sv-'+r.dataset.sc).textContent=Math.round(r.value*100)+'%'};r.onchange=()=>render()});
+  v.querySelectorAll('th[data-s]').forEach(t=>t.onclick=()=>{S.asc=S.sort===t.dataset.s?!S.asc:false;S.sort=t.dataset.s;render()});
+  const rs=document.getElementById('reset');if(rs)rs.onclick=()=>{S.off.clear();A.forEach(a=>S.scale[a.id]=1);render()};
+}
+renderTabs();renderFilters();render();
+</script>
+</body>
+</html>
