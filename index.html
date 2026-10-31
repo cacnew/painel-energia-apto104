@@ -31,7 +31,7 @@ body{margin:0;font:14px/1.5 var(--body);background:var(--bg);color:var(--ink);mi
 @keyframes gridmove{to{background-position:0 46px}}
 @keyframes float{50%{transform:translate(40px,-30px) scale(1.12)}}
 /* ---------- cabeçalho ---------- */
-header{position:relative;padding:22px 28px 14px;border-bottom:1px solid var(--line);background:var(--hdr);backdrop-filter:blur(10px);overflow:hidden}
+header{position:relative;padding:22px 28px 14px;border-bottom:1px solid var(--line);background:var(--hdr);overflow:hidden;isolation:isolate}
 header:after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--acc),transparent);animation:sweep 4.5s ease-in-out infinite}
 @keyframes sweep{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 .top{display:flex;gap:18px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
@@ -146,6 +146,17 @@ svg g[data-tip] rect{transform-box:fill-box;transform-origin:left;animation:grow
  #apt th:nth-child(3),#apt td:nth-child(3),#apt th:nth-child(8),#apt td:nth-child(8),#apt th:nth-child(6),#apt td:nth-child(6){display:none}
  input[type=range]{width:80px}
  .cal{gap:3px}.cal div{padding:3px;min-height:50px;font-size:10.5px;border-radius:8px}.cal b{font-size:12.5px}.cal .small{font-size:9.5px}
+}
+
+@media (pointer:coarse),(max-width:1100px){
+ .atmo:before,.orb{animation:none!important}
+ .atmo:before{will-change:auto}
+ .orb{filter:none;opacity:calc(var(--orb)*.55)}
+ header:after{animation:none!important;transform:none;opacity:.7}
+ h1{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--acc);-webkit-text-fill-color:currentColor}
+ .led{animation:none!important;box-shadow:0 0 8px var(--ok)}
+ nav{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--navbg)}
+ .card{backdrop-filter:none;-webkit-backdrop-filter:none}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 @media print{.atmo,#tip{display:none}body{background:#fff;color:#000}.card{background:#fff;box-shadow:none;border-color:#ccc}h1{color:#000;background:none}}
