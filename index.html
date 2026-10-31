@@ -80,7 +80,7 @@ input[type=range]{width:110px}
 <header>
   <h1>Consumo de energia — SQN 406 Bl. B, apto 104 (Brasília/DF)</h1>
   <div class="sub">Faturas Luz/Neoenergia jan–out/2026 · estimativa de carga por aparelho · testes de 28 a 31/10/2026 · medidor Dowertech DOW1310L nº 1630520</div>
-  <div class="aviso"><b>Estimativa de engenharia de cargas, não é medição nem laudo.</b> Os valores de geladeira, cervejeira, adega e freezer vêm de faixas de etiqueta/anúncio e têm a maior incerteza. <b>Versão 2:</b> o cenário típico foi recalibrado (≈ 214 kWh/mês, antes 292) por causa dos testes de outubro; ver aba Achados. Use os controles para ajustar horas de uso e refazer a conta.</div>
+  <div class="aviso"><b>Estimativa de engenharia de cargas, não é medição nem laudo.</b> Os valores de geladeira, cervejeira, adega e freezer vêm de faixas de etiqueta/anúncio e têm a maior incerteza. <b>Versão 3:</b> aba Cruzamento adicionada; o cenário típico do modelo foi recalibrado (≈ 214 kWh/mês, antes 292), mas o teste aponta ≈ 250–345; ver aba Achados. Use os controles para ajustar horas de uso e refazer a conta.</div>
 </header>
 <nav id="tabs"></nav>
 <main>
@@ -148,7 +148,7 @@ const CICLO={Fev:28,Mar:33,Abr:28,Ago:18};
 const LEIT=[{d:'28/10',k:16894},{d:'29/10',k:16898},{d:'30/10',k:16901},{d:'31/10',k:16911}];
 
 /* ===================== ESTADO ===================== */
-const S={tab:'geral',scen:'ty',per:'mes',dt:'media',tar:1.18,cats:new Set(Object.keys(CATS)),q:'',off:new Set(),scale:{},sort:'v',asc:false,fmode:'kwh'};
+const S={tab:'geral',scen:'ty',per:'mes',dt:'media',tar:1.18,cats:new Set(Object.keys(CATS)),q:'',off:new Set(),scale:{},sort:'v',asc:false,fmode:'kwh',cz:{foto:10.25,nb:2,min:3,kw:6,forno:1.5,lav:0.3,tot:10}};
 A.forEach(a=>S.scale[a.id]=1);
 const f1=x=>x.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1});
 const f2=x=>x.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -238,7 +238,7 @@ function renderFilters(){
 }
 
 /* ===================== ABAS ===================== */
-const TABS=[['geral','Visão geral'],['apar','Por aparelho'],['horas','Horas do dia'],['semana','Semana e mês'],['fat','Faturas'],['teste','Testes de outubro'],['achados','Achados e pendências']];
+const TABS=[['geral','Visão geral'],['apar','Por aparelho'],['horas','Horas do dia'],['semana','Semana e mês'],['fat','Faturas'],['teste','Testes de outubro'],['cruz','Cruzamento: esperado × real'],['achados','Achados e pendências']];
 function renderTabs(){const n=document.getElementById('tabs');n.innerHTML=TABS.map(([k,t])=>`<button data-k="${k}" class="${S.tab===k?'on':''}">${t}</button>`).join('');
  n.querySelectorAll('button').forEach(b=>b.onclick=()=>{S.tab=b.dataset.k;renderTabs();renderFilters();render()})}
 const totalMes=()=>A.reduce((s,a)=>s+mensal(a),0);
@@ -262,8 +262,8 @@ function vGeral(){
   <div class="card" style="margin-top:14px"><h2>Modelo × consumo faturado</h2>${colsV(FAT.filter(f=>f.f==='luz'&&f.m!=='Dez/25'||f.f==='neo').map(f=>f.k),{labels:FAT.filter(f=>f.f==='luz'&&f.m!=='Dez/25'||f.f==='neo').map(f=>f.m),colors:FAT.filter(f=>f.f==='luz'&&f.m!=='Dez/25'||f.f==='neo').map(f=>f.flag==='dup'?'#e8a200':f.f==='neo'?'#b42318':'#2457d6'),line:all,fmt:x=>Math.round(x)+''})}
    <div class="small">Barras azuis: faturas da Luz · amarela: maio (cópia de abril) · vermelhas: Neoenergia (set/out, valores do dossiê). A linha tracejada é o total estimado por aparelho no cenário ${S_()}.</div>
    ${all<=450?'':''}</div>
-  <div class="callout"><b>Leitura rápida (v2):</b> o modelo típico (≈ 214 kWh/mês) foi calibrado pelos testes de outubro e fica perto de agosto (202 kWh). Setembro (401) e outubro (366) estão <b>150 a 190 kWh acima</b> do que as cargas e os testes explicam, mesmo no cenário Alto sem ar-condicionado. Nem calor nem ventilador chegam a isso. O ponto a investigar é o <b>faturamento</b> (ciclo, leitura inicial, estimativa); veja a aba Faturas e Achados.</div>
-  <div class="small">Mudança em relação à versão anterior: o cenário típico era 292 kWh e superestimava ventilador, iluminação, stand-by e a cervejeira.</div>`;
+  <div class="callout w"><b>Leitura rápida (v3):</b> o cruzamento entre o teste de 28–31/10 e as cargas aponta um consumo real de <b>≈ 250 a 345 kWh/mês</b> (central ≈ 270), dependendo da hora exata da foto de 31/10. A média jan–ago (255) e outubro (366) cabem nessa faixa; <b>setembro (401) fica acima</b>. Nenhuma carga escondida aparece. Veja a aba <b>Cruzamento</b>.</div>
+  <div class="small">Mudança</div> em relação à versão anterior: o cenário típico era 292 kWh e superestimava ventilador, iluminação, stand-by e a cervejeira.</div>`;
 }
 
 function vApar(){
@@ -353,9 +353,56 @@ function vTeste(){
   ${rows.map(r=>`<tr><td>${r[0]}</td><td class="r"><b>${r[1]}</b></td><td class="r">${f1(r[3])}</td><td class="small">${r[2]}</td></tr>`).join('')}</tbody></table>
   <h3>Como o modelo chega nos números</h3>
   <table><tbody><tr><td>Geladeira + purificador + stand-by + parte da iluminação e TV</td><td class="r">${f1(minimo)} kWh/dia</td></tr><tr><td>Cervejeira + adega + freezer religados</td><td class="r">${f1(refrig)} kWh/dia</td></tr><tr><td>2 banhos</td><td class="r">${f1(banho)} kWh</td></tr><tr><td>Forno + lavadora</td><td class="r">${f1(forno+lav)} kWh</td></tr><tr><td><b>Dia completo</b></td><td class="r"><b>${f1(completo)} kWh</b></td></tr></tbody></table>
-  <div class="callout w">${Math.abs(minimo-3.5)<=1.5?'O dia mínimo do modelo fica perto do medido (3–4 kWh).':'O dia mínimo do modelo difere do medido (3–4 kWh).'} O dia completo do modelo é ${f1(completo)} kWh contra 10 medidos. Os testes são <b>compatíveis com as cargas</b>, mas são curtos e não validam a exatidão do medidor. <b>Ponto-chave:</b> o dia mais pesado do teste (10 kWh) é menor que a média diária de setembro (13,4) e de outubro (12,2).</div></div></div>
+  <div class="callout w">${Math.abs(minimo-3.5)<=1.5?'O dia mínimo do modelo fica perto do medido (3–4 kWh).':'O dia mínimo do modelo difere do medido (3–4 kWh).'} O dia completo do modelo é ${f1(completo)} kWh contra 10 medidos. Os testes são <b>compatíveis com as cargas</b>, mas são curtos e não validam a exatidão do medidor. <b>Atenção:</b> 10 kWh em ~28 h equivalem a ~8,3 kWh/24 h, abaixo da média de setembro (13,4/dia) e de outubro (12,2/dia); mas, se a foto de 31/10 foi cedo, o intervalo é mais curto e a diferença diminui. Veja a aba Cruzamento.</div></div></div>
   <div class="callout w">Limitações: os intervalos não têm 24 h exatas. O de 30→31/10 vai das 05h25 de 30/10 até a foto de 31/10 (~28 h): ~7,5 h só com a geladeira e ~20 h com tudo ligado. A hora da foto de 31/10 não foi confirmada (talvez ~10h15). Não há medição individual dos aparelhos.</div>`;
 }
+
+
+const tipo_=id=>A.find(a=>a.id===id).ty;
+function czCalc(c,foto){
+  const g=tipo_('ger')/30/24,Tlow=7+35/60,Tfull=11+(foto==null?c.foto:foto);
+  const Elow=g*Tlow,Ex=c.nb*c.min/60*c.kw+c.forno+c.lav;
+  const B=(c.tot-Elow-Ex)/Tfull*24;
+  const mBase=['ger','cer','ade','fre','pur','stb','led','t43','t55','ven','umi','div'].reduce((s,i)=>s+tipo_(i),0)/30;
+  const coz=['for','air','mic','caf','cha'].reduce((s,i)=>s+tipo_(i),0);
+  const mes=B*30+c.min*c.kw/60*30+coz+tipo_('lav');
+  return {B,mBase,mes,Elow,Ex,Tfull,Tlow};
+}
+function czOut(){
+  const c=S.cz,r=czCalc(c);
+  const sens=[5.4,8,10.25,12].map(f=>{const x=czCalc(c,f);return '<tr><td>'+(f===5.4?'~05h30':f===10.25?'~10h15 (sugerido, não confirmado)':Math.floor(f)+'h')+'</td><td class="r">'+f1(x.Tfull+x.Tlow)+' h</td><td class="r">'+f1(x.B)+'</td><td class="r"><b>'+Math.round(x.mes)+'</b></td></tr>'}).join('');
+  const bills=[['Média jan–ago',255],['Agosto',202],['Setembro',401],['Outubro',366]].map(([n,k])=>'<tr><td>'+n+'</td><td class="r">'+k+'</td><td class="r">'+(k>=r.mes?'+':'')+Math.round(k-r.mes)+'</td><td class="r">'+(100*(k-r.mes)/r.mes).toFixed(0)+'%</td></tr>').join('');
+  return '<div class="grid g4"><div class="card kpi"><div class="t">Consumo-base real de um dia (tudo ligado, sem banho/forno/lavadora)</div><div class="v">'+f1(r.B)+' kWh/dia</div><div class="n">modelo esperava '+f1(r.mBase)+' · diferença '+(r.B-r.mBase>=0?'+':'')+f1(r.B-r.mBase)+'</div></div>'
+  +'<div class="card kpi"><div class="t">Projeção mensal pelo teste</div><div class="v">≈ '+Math.round(r.mes)+' kWh</div><div class="n">base × 30 + banho diário + cozinha + lavadora</div></div>'
+  +'<div class="card kpi"><div class="t">Intervalo medido (30/10 05h25 → foto de 31/10)</div><div class="v">'+f1(r.Tlow+r.Tfull)+' h</div><div class="n">'+f1(r.Tlow)+' h só geladeira + '+f1(r.Tfull)+' h com tudo ligado</div></div>'
+  +'<div class="card kpi"><div class="t">Extras do intervalo (banhos, forno, lavadora)</div><div class="v">'+f1(r.Ex)+' kWh</div><div class="n">geladeira sozinha no começo: '+f1(r.Elow)+' kWh</div></div></div>'
+  +'<div class="card" style="margin-top:14px"><h2>Quanto o resultado depende da hora da foto</h2><table><thead><tr><th>Hora da foto de 31/10</th><th class="r">Duração</th><th class="r">Base (kWh/dia)</th><th class="r">Projeção (kWh/mês)</th></tr></thead><tbody>'+sens+'</tbody></table></div>'
+  +'<div class="card" style="margin-top:14px"><h2>Projeção do teste × faturado</h2><table><thead><tr><th>Referência</th><th class="r">kWh faturado</th><th class="r">Diferença para o teste</th><th class="r">%</th></tr></thead><tbody>'+bills+'</tbody></table><div class="small">Diferença positiva = faturado acima do que o teste sustenta.</div></div>';
+}
+function vCruz(){
+  const c=S.cz;
+  const inp=(k,l,st)=>'<div class="fg"><label>'+l+'</label><input type="number" step="'+st+'" id="cz_'+k+'" value="'+c[k]+'"></div>';
+  const e=tipo_('ger')/30+tipo_('pur')/30+tipo_('stb')/30*0.5+tipo_('led')/30*0.5+tipo_('t43')/30*0.5;
+  const lowRows=[['28→29/10',4,'duração e horários não registrados; ~24 h?'],['29→30/10',3,'até 05h25 de 30/10; inclui 1 banho de ~3 min']].map(([n,m,o])=>
+    '<tr><td>'+n+'</td><td class="r"><b>'+m+'</b> (de '+(m-1)+' a '+(m+1)+')</td><td class="r">'+f1(e)+'</td><td class="r">'+(m-e>=0?'+':'')+f1(m-e)+'</td><td class="small">'+o+'</td></tr>').join('');
+  return '<div class="callout w"><b>Como ler:</b> comparamos o que as cargas deveriam consumir com o que o medidor registrou. A leitura é um número inteiro de kWh, então <b>toda diferença entre duas fotos tem ±1 kWh de incerteza</b>. Ajuste as premissas abaixo; o painel recalcula.</div>'
+  +'<div class="filters"><div class="fg" style="width:100%"><span class="l">Premissas do intervalo 30→31/10 (medido: 16.901 → 16.911 kWh)</span></div>'
+  +inp('foto','Hora da foto de 31/10 (10.25 = 10h15)',0.25)+inp('tot','kWh medidos (±1)',1)+inp('nb','Nº de banhos',1)+inp('min','Minutos por banho',1)+inp('kw','Potência efetiva do chuveiro (kW)',0.5)+inp('forno','Forno (kWh)',0.1)+inp('lav','Lavadora (kWh)',0.1)+'</div>'
+  +'<div id="czout">'+czOut()+'</div>'
+  +'<div class="card" style="margin-top:14px"><h2>Dias de carga baixa: esperado × medido</h2><table><thead><tr><th>Intervalo</th><th class="r">Medido (kWh)</th><th class="r">Esperado (kWh)</th><th class="r">Diferença</th><th>Observação</th></tr></thead><tbody>'+lowRows+'</tbody></table>'
+  +'<div class="small">Esperado = geladeira + purificador + metade do stand-by, iluminação e TV do quarto. Uma diferença de +1 a +2 kWh/dia equivale a ~40–80 W contínuos: cabe numa geladeira que gaste mais que o esperado (a Consul pode ter 60–90 kWh/mês, e não 40) e em cargas pequenas não listadas. <b>Não indica sozinha uma carga escondida.</b></div></div>'
+  +'<div class="card" style="margin-top:14px"><h2>O que o cruzamento permite concluir</h2><ol>'
+  +'<li><b>O consumo real de um dia normal fica entre ~7,5 e ~10,5 kWh</b> (≈ 250 a 345 kWh/mês). O valor central (foto às ~10h15) é ≈ 270, mas <b>a hora da foto de 31/10 muda tudo</b>: se foi perto das 5h30, o intervalo é de ~24 h e a projeção sobe para ~345. Confirmar esse horário é a prioridade.</li>'
+  +'<li><b>Outubro (366) cabe na ponta alta dessa faixa; setembro (401) fica acima dela</b>. A média jan–ago (255) e agosto (202) ficam dentro ou abaixo. Logo o teste <b>não refuta</b> o consumo de outubro e só questiona setembro. Eu havia dito antes que o teste contradizia set/out: isso estava forte demais.</li>'
+  +'<li><b>Nenhuma carga escondida aparece</b> nos testes: o excesso nos dias de carga baixa é pequeno e explicável. O foco recai sobre o <b>ciclo e as leituras do faturamento</b> e sobre a <b>aferição do medidor</b>.</li>'
+  +'<li>O teste de 10 kWh <b>não consegue</b> provar nem refutar erro de medição: a resolução de 1 kWh e o horário incerto dão margem de ±15% ou mais.</li></ol></div>'
+  +'<div class="card" style="margin-top:14px"><h2>Testes que dariam evidência de verdade</h2><ul>'
+  +'<li><b>Teste do LED de pulsos (verifica o medidor):</b> desligar tudo, ligar só uma carga conhecida (chaleira 1.150 W ou chuveiro) por ~5 min e contar os pulsos do LED do medidor. Comparar com a constante impressa no medidor (imp/kWh). Por eletricista habilitado, sem abrir lacres.</li>'
+  +'<li><b>Leitura a cada 24 h, sempre no mesmo horário</b> (anotando a hora), por 2 semanas, com a rotina normal. Dá o kWh/dia real, separando dia útil e fim de semana.</li>'
+  +'<li><b>Wattímetro de tomada</b> em geladeira, cervejeira, adega e freezer (24 h cada): fecha a parte da conta com mais incerteza.</li>'
+  +'<li><b>Teste só com a geladeira ligada por 24 h</b> (resto desligado nos disjuntores), com fotos das duas leituras e horários. Dá o consumo-base real.</li></ul></div>';
+}
+function bindCruz(){['foto','tot','nb','min','kw','forno','lav'].forEach(k=>{const e=document.getElementById('cz_'+k);if(e)e.oninput=()=>{S.cz[k]=parseFloat(e.value)||0;document.getElementById('czout').innerHTML=czOut()}})}
 
 function vAchados(){
   return `<div class="callout"><b>1. A fatura de "maio" é cópia da de abril.</b> Mesmos 245 kWh, R$ 263,52 e data de fechamento 16/04/2026; traz "consumo anterior 490 kWh" (245 + 245). Maio real não foi apurado ou foi lançado em duplicidade.</div>
@@ -363,7 +410,7 @@ function vAchados(){
   <div class="callout w"><b>3. Ciclos de duração desigual.</b> Fechamentos: 17/01, 14/02 (28 d), 19/03 (33 d), 16/04 (28 d), 29/07, 16/08 (<b>18 d</b>). Em agosto, 202 kWh em 18 dias dá ~11 kWh/dia, acima da média de ~8,4. Comparar kWh/dia, não kWh/mês. Setembro (401) seria 13,4 kWh/dia se o ciclo tiver 30 dias.</div>
   <div class="callout w"><b>4. Volta da Luz para a Neoenergia (ago/2026).</b> Conferir se a leitura inicial da Neoenergia coincide com a final registrada pela Luz.</div>
   <div class="callout w"><b>5. Fatura de agosto vence em 02/10/2026</b> (fechada em 16/08), fora do padrão das demais.</div>
-  <div class="callout"><b>6. O teste contradiz o consumo de setembro e outubro.</b> O dia mais pesado do teste (tudo ligado, 2 banhos, forno, lavadora) deu 10 kWh. Um dia normal ficaria em ~6,5–7 kWh (≈ 200 kWh/mês, igual a agosto). Setembro = 13,4 kWh/dia e outubro = 12,2 kWh/dia. Ressalva: intervalos não exatos de 24 h.</div>
+  <div class="callout w"><b>6. Cruzamento do teste (aba Cruzamento).</b> Tirando banhos, forno e lavadora dos 10 kWh do intervalo 30→31/10 e escalando para 24 h, o consumo-base de um dia fica entre 7,5 e 10,5 kWh (≈ 250 a 345 kWh/mês), conforme a hora da foto (5h30 a 12h). Setembro (401) fica acima; outubro (366) cabe na ponta alta. Resolução de 1 kWh e horário incerto impedem uma conclusão mais firme.</div>
   <div class="callout w"><b>7. Correção de versões anteriores.</b> O modelo típico foi reduzido de 292 para ~214 kWh/mês (superestimava ventilador, iluminação, stand-by e cervejeira). A frase "os testes não indicam defeito do medidor" também estava forte demais: os testes batem com as cargas, mas não provam a exatidão do medidor.</div>
   <div class="callout w"><b>8. Desconto da Luz em agosto não bate.</b> É 6% em todos os meses (jan 18,91/315,11; mar, abr, jul idem), mas em agosto R$ 14,34 sobre R$ 221,30 dá 6,5%. Seriam 6% de ~R$ 239.</div>
   <div class="callout w"><b>9. Preço por kWh sobe 8% de jan (1,07) para fev (1,15)</b> com bandeira R$ 0,00 nos dois meses. Pelo que sei o reajuste da distribuidora do DF é em outubro: confirmar. Em set/out o preço dela (1,18 a 1,22) é igual ao do vizinho (410,27/346 = 1,186): o problema está nos kWh, não na tarifa.</div>
@@ -393,11 +440,11 @@ function vAchados(){
 
 function render(){
   const v=document.getElementById('view');
-  v.innerHTML=({geral:vGeral,apar:vApar,horas:vHoras,semana:vSemana,fat:vFat,teste:vTeste,achados:vAchados})[S.tab]();
+  v.innerHTML=({geral:vGeral,apar:vApar,horas:vHoras,semana:vSemana,fat:vFat,teste:vTeste,cruz:vCruz,achados:vAchados})[S.tab]();
   v.querySelectorAll('[data-on]').forEach(c=>c.onchange=()=>{c.checked?S.off.delete(c.dataset.on):S.off.add(c.dataset.on);render()});
   v.querySelectorAll('[data-sc]').forEach(r=>{r.oninput=()=>{S.scale[r.dataset.sc]=parseFloat(r.value);document.getElementById('sv-'+r.dataset.sc).textContent=Math.round(r.value*100)+'%'};r.onchange=()=>render()});
   v.querySelectorAll('th[data-s]').forEach(t=>t.onclick=()=>{S.asc=S.sort===t.dataset.s?!S.asc:false;S.sort=t.dataset.s;render()});
-  const rs=document.getElementById('reset');if(rs)rs.onclick=()=>{S.off.clear();A.forEach(a=>S.scale[a.id]=1);render()};
+  bindCruz();const rs=document.getElementById('reset');if(rs)rs.onclick=()=>{S.off.clear();A.forEach(a=>S.scale[a.id]=1);render()};
 }
 renderTabs();renderFilters();render();
 </script>
