@@ -80,7 +80,7 @@ input[type=range]{width:110px}
 <header>
   <h1>Consumo de energia — SQN 406 Bl. B, apto 104 (Brasília/DF)</h1>
   <div class="sub">Faturas Luz/Neoenergia jan–out/2026 · estimativa de carga por aparelho · testes de 28 a 31/10/2026 · medidor Dowertech DOW1310L nº 1630520</div>
-  <div class="aviso"><b>Estimativa de engenharia de cargas, não é medição nem laudo.</b> Os valores de geladeira, cervejeira, adega e freezer vêm de faixas de etiqueta/anúncio e têm a maior incerteza. Use os controles para ajustar horas de uso e refazer a conta.</div>
+  <div class="aviso"><b>Estimativa de engenharia de cargas, não é medição nem laudo.</b> Os valores de geladeira, cervejeira, adega e freezer vêm de faixas de etiqueta/anúncio e têm a maior incerteza. <b>Versão 2:</b> o cenário típico foi recalibrado (≈ 214 kWh/mês, antes 292) por causa dos testes de outubro; ver aba Achados. Use os controles para ajustar horas de uso e refazer a conta.</div>
 </header>
 <nav id="tabs"></nav>
 <main>
@@ -108,19 +108,19 @@ const PROF={ // pesos por hora (0..23)
  ref:Array.from({length:24},(_,h)=>h>=12&&h<=18?1.25:(h<=6?.85:1))
 };
 const A=[ // id,nome,cat,low,typ,high (kWh/mês), s = fração da semana consumida no sáb+dom, perfil, base
-{id:'chu',n:'Chuveiro 6.800 W (banho diário da Lívia)',cat:'ban',lo:9.6,ty:24,hi:40.8,s:2/7,p:'banho',b:'1 banho/dia: 4 min a 4,8 kW · 8 min a 6 kW · 12 min a 6,8 kW'},
+{id:'chu',n:'Chuveiro 6.800 W (banho diário da Lívia)',cat:'ban',lo:9.6,ty:20,hi:40.8,s:2/7,p:'banho',b:'1 banho/dia: 4 min a 4,8 kW · 8 min a 6 kW · 12 min a 6,8 kW'},
 {id:'chc',n:'Chuveiro — banhos extras do Carlos (fim de semana)',cat:'ban',lo:0,ty:3.2,hi:9.1,s:1,p:'banho',b:'~4 banhos/mês de 8 min (alto: 8 de 10 min a 6,8 kW)'},
-{id:'ger',n:'Geladeira Consul CRE44 (~450 L)',cat:'ref',lo:35,ty:48,hi:70,s:2/7,p:'ref',b:'Selo A típico 30–60 kWh/mês. Valor exato NÃO confirmado — conferir etiqueta'},
-{id:'cer',n:'Cervejeira Venax Blue Light 100 L',cat:'ref',lo:33,ty:58,hi:70,s:2/7,p:'ref',b:'Anúncio: 696 kWh/ano (58/mês); review: ~33/mês. 200 W nominais, compressor cicla'},
-{id:'ade',n:'Adega Oster OADE180 (18 garrafas)',cat:'ref',lo:25,ty:40,hi:55,s:2/7,p:'flat',b:'130 W nominais (não 1.300 W). Ligada 24 h'},
-{id:'fre',n:'Freezer EOS EFV70 (66 L)',cat:'ref',lo:12,ty:20,hi:30,s:2/7,p:'ref',b:'100 W nominais, compressor ~25–30% do tempo'},
+{id:'ger',n:'Geladeira Consul CRE44 (~450 L)',cat:'ref',lo:30,ty:40,hi:70,s:2/7,p:'ref',b:'Selo A típico 30–60 kWh/mês. Valor exato NÃO confirmado — conferir etiqueta'},
+{id:'cer',n:'Cervejeira Venax Blue Light 100 L',cat:'ref',lo:25,ty:35,hi:70,s:2/7,p:'ref',b:'Anúncio: 696 kWh/ano (58/mês); review: ~33/mês. Típico calibrado em 35 (200 W nominais, compressor cicla)'},
+{id:'ade',n:'Adega Oster OADE180 (18 garrafas)',cat:'ref',lo:20,ty:28,hi:55,s:2/7,p:'flat',b:'130 W nominais (não 1.300 W). Ligada 24 h'},
+{id:'fre',n:'Freezer EOS EFV70 (66 L)',cat:'ref',lo:10,ty:14,hi:30,s:2/7,p:'ref',b:'100 W nominais, compressor ~25–30% do tempo'},
 {id:'pur',n:'Purificador de água Everest Soft Fit',cat:'ref',lo:4.95,ty:4.95,hi:10,s:2/7,p:'flat',b:'Etiqueta: 4,95 kWh/mês'},
-{id:'stb',n:'Roteador/modem + stand-by (TVs, carregadores)',cat:'luz',lo:12,ty:20,hi:32,s:2/7,p:'flat',b:'~25–40 W contínuos'},
-{id:'led',n:'Iluminação LED',cat:'luz',lo:5.4,ty:12,hi:21,s:2/7,p:'luz',b:'~100 W médios, ~4 h/noite'},
-{id:'ven',n:'Ventilador Britânia 40 cm',cat:'cli',lo:4.7,ty:14.2,hi:18.9,s:.3,p:'vent',b:'Etiqueta 2,36 kWh/mês por 1 h/dia → 2 a 8 h/dia em dias quentes'},
+{id:'stb',n:'Roteador/modem + stand-by (TVs, carregadores)',cat:'luz',lo:8,ty:12,hi:32,s:2/7,p:'flat',b:'~25–40 W contínuos'},
+{id:'led',n:'Iluminação LED',cat:'luz',lo:4,ty:7,hi:21,s:2/7,p:'luz',b:'~100 W médios, ~4 h/noite'},
+{id:'ven',n:'Ventilador Britânia 40 cm',cat:'cli',lo:3,ty:8,hi:18.9,s:.3,p:'vent',b:'Etiqueta 2,36 kWh/mês por 1 h/dia → 2 a 8 h/dia em dias quentes'},
 {id:'umi',n:'Umidificador Ventisol U-04 (25 W)',cat:'cli',lo:2,ty:3,hi:7.5,s:2/7,p:'umid',b:'8 h/noite, ~15 noites/mês'},
 {id:'arc',n:'Ar-condicionado (uso raro)',cat:'cli',lo:0,ty:0,hi:40,s:2/7,p:'noite',b:'Sem uso = 0. Um mês com ~20 h de uso ≈ 40 kWh. Marque/ajuste para simular'},
-{id:'t43',n:'TV Samsung 43" (quarto)',cat:'ent',lo:5.4,ty:10.5,hi:18.9,s:.3,p:'tv',b:'~70 W, ~5 h/dia'},
+{id:'t43',n:'TV Samsung 43" (quarto)',cat:'ent',lo:5,ty:8,hi:18.9,s:.3,p:'tv',b:'~70 W, ~5 h/dia'},
 {id:'t55',n:'TV Samsung 55" (sala, fins de semana)',cat:'ent',lo:2.3,ty:4.7,hi:9.6,s:.9,p:'tvfds',b:'~110 W, ~10 h/semana'},
 {id:'for',n:'Forno elétrico',cat:'coz',lo:4.8,ty:6.4,hi:16,s:.6,p:'almoco',b:'~1.500 W, ~1 h/semana com pré-aquecimento'},
 {id:'air',n:'Air fryer',cat:'coz',lo:1.8,ty:3.6,hi:7.2,s:1,p:'almoco',b:'~1.500 W, 25 min, 4–9 usos/mês nos fins de semana'},
@@ -128,7 +128,7 @@ const A=[ // id,nome,cat,low,typ,high (kWh/mês), s = fração da semana consumi
 {id:'caf',n:'Cafeteira Oster OCAF550 (900 W)',cat:'coz',lo:1.4,ty:2.9,hi:4.5,s:.3,p:'cafe',b:'~15 min, ~3×/semana'},
 {id:'cha',n:'Chaleira Cadence CEL314 (1.150 W)',cat:'coz',lo:.4,ty:1.2,hi:2.5,s:.3,p:'cafe',b:'~5 min, ~3×/semana'},
 {id:'lav',n:'Lava e seca Samsung WD11A4453BW (só lavagem fria)',cat:'out',lo:.6,ty:2.6,hi:4.3,s:.35,p:'lav',b:'~0,15–0,5 kWh/ciclo, 2×/semana, sem secagem (a secagem custaria 2–4 kWh por ciclo)'},
-{id:'div',n:'Diversos (notebook, celulares, ferro, secador)',cat:'out',lo:5,ty:10,hi:18,s:2/7,p:'noite',b:'Estimativa genérica'}
+{id:'div',n:'Diversos (notebook, celulares, ferro, secador)',cat:'out',lo:3,ty:6,hi:18,s:2/7,p:'noite',b:'Estimativa genérica'}
 ];
 const FAT=[ // mês, kWh, semLuz, ajustes, total, fechada, arquivo, fonte
 {m:'Dez/25',k:275,sl:null,aj:null,tot:289.33,fe:null,arq:'(citada na fatura de jan)',f:'luz'},
@@ -262,7 +262,8 @@ function vGeral(){
   <div class="card" style="margin-top:14px"><h2>Modelo × consumo faturado</h2>${colsV(FAT.filter(f=>f.f==='luz'&&f.m!=='Dez/25'||f.f==='neo').map(f=>f.k),{labels:FAT.filter(f=>f.f==='luz'&&f.m!=='Dez/25'||f.f==='neo').map(f=>f.m),colors:FAT.filter(f=>f.f==='luz'&&f.m!=='Dez/25'||f.f==='neo').map(f=>f.flag==='dup'?'#e8a200':f.f==='neo'?'#b42318':'#2457d6'),line:all,fmt:x=>Math.round(x)+''})}
    <div class="small">Barras azuis: faturas da Luz · amarela: maio (cópia de abril) · vermelhas: Neoenergia (set/out, valores do dossiê). A linha tracejada é o total estimado por aparelho no cenário ${S_()}.</div>
    ${all<=450?'':''}</div>
-  <div class="callout o"><b>Leitura rápida:</b> pelas cargas informadas, 255 kWh/mês é plausível (modelo típico ≈ 292). Set (401) e out (366) só se explicam com vários itens no limite alto ao mesmo tempo. Ligue o ar-condicionado e o cenário "Alto" para ver o que seria preciso. O ponto a investigar é a <b>variação e o faturamento</b>, na aba Faturas.</div>`;
+  <div class="callout"><b>Leitura rápida (v2):</b> o modelo típico (≈ 214 kWh/mês) foi calibrado pelos testes de outubro e fica perto de agosto (202 kWh). Setembro (401) e outubro (366) estão <b>150 a 190 kWh acima</b> do que as cargas e os testes explicam, mesmo no cenário Alto sem ar-condicionado. Nem calor nem ventilador chegam a isso. O ponto a investigar é o <b>faturamento</b> (ciclo, leitura inicial, estimativa); veja a aba Faturas e Achados.</div>
+  <div class="small">Mudança em relação à versão anterior: o cenário típico era 292 kWh e superestimava ventilador, iluminação, stand-by e a cervejeira.</div>`;
 }
 
 function vApar(){
@@ -352,8 +353,8 @@ function vTeste(){
   ${rows.map(r=>`<tr><td>${r[0]}</td><td class="r"><b>${r[1]}</b></td><td class="r">${f1(r[3])}</td><td class="small">${r[2]}</td></tr>`).join('')}</tbody></table>
   <h3>Como o modelo chega nos números</h3>
   <table><tbody><tr><td>Geladeira + purificador + stand-by + parte da iluminação e TV</td><td class="r">${f1(minimo)} kWh/dia</td></tr><tr><td>Cervejeira + adega + freezer religados</td><td class="r">${f1(refrig)} kWh/dia</td></tr><tr><td>2 banhos</td><td class="r">${f1(banho)} kWh</td></tr><tr><td>Forno + lavadora</td><td class="r">${f1(forno+lav)} kWh</td></tr><tr><td><b>Dia completo</b></td><td class="r"><b>${f1(completo)} kWh</b></td></tr></tbody></table>
-  <div class="callout o">${Math.abs(minimo-3.5)<=1.5?'O dia mínimo do modelo cai na faixa medida (3–4 kWh).':'O dia mínimo do modelo difere do medido (3–4 kWh); revise a geladeira.'} O dia completo ${Math.abs(completo-10)<=2.5?'também fica próximo dos 10 kWh medidos':'difere dos 10 kWh medidos'}. Os testes são compatíveis com as cargas: <b>não indicam defeito do medidor nem fuga</b>.</div></div></div>
-  <div class="callout w">Limitações: horários exatos não confirmados (a foto de 31/10 pode ser ~10h15), o intervalo 30→31 inclui ~30 min antes do religamento de 13h, e não há medição individual dos aparelhos.</div>`;
+  <div class="callout w">${Math.abs(minimo-3.5)<=1.5?'O dia mínimo do modelo fica perto do medido (3–4 kWh).':'O dia mínimo do modelo difere do medido (3–4 kWh).'} O dia completo do modelo é ${f1(completo)} kWh contra 10 medidos. Os testes são <b>compatíveis com as cargas</b>, mas são curtos e não validam a exatidão do medidor. <b>Ponto-chave:</b> o dia mais pesado do teste (10 kWh) é menor que a média diária de setembro (13,4) e de outubro (12,2).</div></div></div>
+  <div class="callout w">Limitações: os intervalos não têm 24 h exatas. O de 30→31/10 vai das 05h25 de 30/10 até a foto de 31/10 (~28 h): ~7,5 h só com a geladeira e ~20 h com tudo ligado. A hora da foto de 31/10 não foi confirmada (talvez ~10h15). Não há medição individual dos aparelhos.</div>`;
 }
 
 function vAchados(){
@@ -362,8 +363,11 @@ function vAchados(){
   <div class="callout w"><b>3. Ciclos de duração desigual.</b> Fechamentos: 17/01, 14/02 (28 d), 19/03 (33 d), 16/04 (28 d), 29/07, 16/08 (<b>18 d</b>). Em agosto, 202 kWh em 18 dias dá ~11 kWh/dia, acima da média de ~8,4. Comparar kWh/dia, não kWh/mês. Setembro (401) seria 13,4 kWh/dia se o ciclo tiver 30 dias.</div>
   <div class="callout w"><b>4. Volta da Luz para a Neoenergia (ago/2026).</b> Conferir se a leitura inicial da Neoenergia coincide com a final registrada pela Luz.</div>
   <div class="callout w"><b>5. Fatura de agosto vence em 02/10/2026</b> (fechada em 16/08), fora do padrão das demais.</div>
-  <div class="callout o"><b>6. O consumo médio é plausível para as cargas.</b> 255 kWh/mês × modelo ~292. A refrigeração 24 h (geladeira, cervejeira, adega, freezer, purificador) sozinha é ~58% do total.</div>
-  <div class="callout o"><b>7. Testes de 28–31/10 batem com o modelo</b> (3–4 kWh/dia com poucas cargas; 10 kWh com tudo religado, 2 banhos, forno e lavadora).</div>
+  <div class="callout"><b>6. O teste contradiz o consumo de setembro e outubro.</b> O dia mais pesado do teste (tudo ligado, 2 banhos, forno, lavadora) deu 10 kWh. Um dia normal ficaria em ~6,5–7 kWh (≈ 200 kWh/mês, igual a agosto). Setembro = 13,4 kWh/dia e outubro = 12,2 kWh/dia. Ressalva: intervalos não exatos de 24 h.</div>
+  <div class="callout w"><b>7. Correção de versões anteriores.</b> O modelo típico foi reduzido de 292 para ~214 kWh/mês (superestimava ventilador, iluminação, stand-by e cervejeira). A frase "os testes não indicam defeito do medidor" também estava forte demais: os testes batem com as cargas, mas não provam a exatidão do medidor.</div>
+  <div class="callout w"><b>8. Desconto da Luz em agosto não bate.</b> É 6% em todos os meses (jan 18,91/315,11; mar, abr, jul idem), mas em agosto R$ 14,34 sobre R$ 221,30 dá 6,5%. Seriam 6% de ~R$ 239.</div>
+  <div class="callout w"><b>9. Preço por kWh sobe 8% de jan (1,07) para fev (1,15)</b> com bandeira R$ 0,00 nos dois meses. Pelo que sei o reajuste da distribuidora do DF é em outubro: confirmar. Em set/out o preço dela (1,18 a 1,22) é igual ao do vizinho (410,27/346 = 1,186): o problema está nos kWh, não na tarifa.</div>
+  <div class="callout w"><b>10. Dados a conferir:</b> a lava e seca Samsung WD11A4453BW aparece no site da Samsung como 127 V (o dossiê diz 220 V). O vizinho com 6 pessoas e chuveiro elétrico consome 346 kWh e ela, sozinha, 366: pista fraca, mas vale a pergunta.</div>
   <div class="card"><h2>Hipóteses para o faturamento, em ordem</h2><ol>
    <li>Maio duplicado, junho ausente e ajustes de jul/ago (pedir demonstrativo e leituras abr–jul).</li>
    <li>Ciclos de duração diferente (comparar kWh/dia).</li>
