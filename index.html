@@ -148,7 +148,7 @@ const CICLO={Fev:28,Mar:33,Abr:28,Ago:18};
 const LEIT=[{d:'28/10',k:16894},{d:'29/10',k:16898},{d:'30/10',k:16901},{d:'31/10',k:16911}];
 
 /* ===================== ESTADO ===================== */
-const S={tab:'geral',scen:'ty',per:'mes',dt:'media',tar:1.18,cats:new Set(Object.keys(CATS)),q:'',off:new Set(),scale:{},sort:'v',asc:false,fmode:'kwh',cz:{foto:10.25,nb:2,min:3,kw:6,forno:1.5,lav:0.3,tot:10}};
+const S={tab:'geral',scen:'ty',per:'mes',dt:'media',tar:1.18,cats:new Set(Object.keys(CATS)),q:'',off:new Set(),scale:{},sort:'v',asc:false,fmode:'kwh',base:'A',cz:{foto:10.25,nb:2,min:3,kw:6,forno:1.5,lav:0.3,tot:10}};
 A.forEach(a=>S.scale[a.id]=1);
 const f1=x=>x.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1});
 const f2=x=>x.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -224,14 +224,14 @@ function renderFilters(){
   const aparelho=['geral','apar','horas','semana'].includes(S.tab);
   if(!aparelho){el.innerHTML=`<div class="fg"><span class="l">Cenário do modelo</span>${seg('sc',[['lo','Baixo'],['ty','Típico'],['hi','Alto']],S.scen)}</div><div class="fg"><label>Tarifa (R$/kWh)</label><input type="number" step="0.01" id="tar" value="${S.tar}"></div>`;}
   else el.innerHTML=`
-  <div class="fg"><span class="l">Cenário</span>${seg('sc',[['lo','Baixo'],['ty','Típico'],['hi','Alto']],S.scen)}</div>
+  <div class="fg"><span class="l">Cenário (modelo)</span>${seg('sc',[['lo','Baixo'],['ty','Típico'],['hi','Alto']],S.scen)}</div>${S.tab==='semana'?`<div class="fg"><span class="l">Base da estimativa</span>${seg('cb',[['A','Medidor A'],['B','Medidor B'],['M','Modelo']],S.base)}</div>`:''}
   ${S.tab==='horas'||S.tab==='semana'?'':`<div class="fg"><span class="l">Período</span>${seg('pe',[['dia','Dia'],['sem','Semana'],['mes','Mês']],S.per)}</div>`}
   ${(S.per==='dia'&&S.tab!=='semana')||S.tab==='horas'?`<div class="fg"><span class="l">Tipo de dia</span>${seg('dt',[['util','Útil (seg–sex)'],['fds','Sáb/Dom'],['media','Média']],S.dt)}</div>`:''}
   <div class="fg"><label>Tarifa (R$/kWh)</label><input type="number" step="0.01" id="tar" value="${S.tar}"></div>
   <div class="fg"><label>Buscar aparelho</label><input type="text" id="q" value="${S.q}" placeholder="ex.: chuveiro" style="width:150px"></div>
   <div class="fg" style="flex:1 1 300px"><span class="l">Categorias (clique para ligar/desligar)</span><div class="chips">${Object.entries(CATS).map(([k,c])=>`<span class="chip ${S.cats.has(k)?'':'off'}" data-c="${k}"><i style="background:${c.c}"></i>${c.n}</span>`).join('')}</div></div>`;
   const bind=(id,fn)=>{const e=document.getElementById(id);if(e)e.querySelectorAll('button').forEach(b=>b.onclick=()=>{fn(b.dataset.v);renderFilters();render()})};
-  bind('sc',v=>S.scen=v);bind('pe',v=>S.per=v);bind('dt',v=>S.dt=v);
+  bind('sc',v=>S.scen=v);bind('cb',v=>S.base=v);bind('pe',v=>S.per=v);bind('dt',v=>S.dt=v);
   const t=document.getElementById('tar');if(t)t.oninput=()=>{S.tar=parseFloat(t.value)||0;render()};
   const q=document.getElementById('q');if(q)q.oninput=()=>{S.q=q.value;render()};
   el.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{const k=c.dataset.c;S.cats.has(k)?S.cats.delete(k):S.cats.add(k);renderFilters();render()});
@@ -296,26 +296,45 @@ function vHoras(){
   <div class="small" style="margin-top:8px">Rotina assumida: trabalha 7h–12h, ausente até ~15h, em casa das 15h até o dia seguinte; 1 banho por dia (~21h, parte às 6h). Os horários de cada aparelho são premissas; ajuste na aba "Por aparelho".</div></div>`;
 }
 
-function vSemana(){
+function baseDia(tipo,base){
+  base=base||S.base;
+  if(base==='A')return tipo==='util'?{lo:3,med:4,hi:5}:{lo:4.7,med:5.7,hi:10};
+  if(base==='B'){const c=S.cz,sh=c.min*c.kw/60,ex=sh+0.15,b=czCalc(c).B,bl=czCalc(c,12).B,bh=czCalc(c,5.4).B;
+    return tipo==='util'?{lo:bl+ex,med:b+ex,hi:bh+ex}:{lo:bl+2*sh+1,med:b+2*sh+1,hi:bh+2*sh+1};}
   const l=A.filter(vis).filter(a=>!S.off.has(a.id));
-  const dias=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
-  const val=dias.map((d,i)=>l.reduce((s,a)=>s+diaKWh(a,i<5?'util':'fds'),0));
-  const semT=val.reduce((a,b)=>a+b,0);
-  const porCat=Object.keys(CATS).map(k=>({k,u:l.filter(a=>a.cat===k).reduce((s,a)=>s+diaKWh(a,'util'),0),f:l.filter(a=>a.cat===k).reduce((s,a)=>s+diaKWh(a,'fds'),0)})).filter(x=>x.u+x.f>0);
-  // outubro/2026: 1º = quinta
-  const obs={29:4,30:3,31:10};
-  let cal=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'].map(d=>`<div class="h">${d}</div>`).join('')+'<div style="visibility:hidden"></div>'.repeat(3);
-  for(let d=1;d<=31;d++){const dow=(d+2)%7;const we=dow>=5;const v=l.reduce((s,a)=>s+diaKWh(a,we?'fds':'util'),0);
-    cal+=`<div class="${we?'we':''} ${obs[d]!=null?'t':''}"><span class="small">${d}</span><b>${f1(v)}</b>${obs[d]!=null?`<span class="small">medido: ${obs[d]}</span>`:''}</div>`}
-  const mes=val.reduce((a,b)=>a+b,0)/7*30;
-  return `<div class="grid g2"><div class="card"><h2>Semana típica — kWh por dia</h2>${colsV(val,{labels:dias,colors:val.map((_,i)=>i<5?'#2457d6':'#7a3fd1'),fmt:f2})}
-   <div class="small">Total da semana: <b>${f1(semT)} kWh</b> (${brl(semT*S.tar)}). Fim de semana pesa mais por Carlos, TV da sala, air fryer e forno.</div></div>
-   <div class="card"><h2>Dia útil × fim de semana, por categoria (kWh/dia)</h2>
-   <table><thead><tr><th>Categoria</th><th class="r">Útil</th><th class="r">Sáb/Dom</th><th class="r">Diferença</th></tr></thead><tbody>${porCat.map(x=>`<tr><td><i class="chip" style="padding:0 5px;border:0;background:${CATS[x.k].c}"> </i> ${CATS[x.k].n}</td><td class="r">${f2(x.u)}</td><td class="r">${f2(x.f)}</td><td class="r">${x.f-x.u>=0?'+':''}${f2(x.f-x.u)}</td></tr>`).join('')}</tbody></table></div></div>
-  <div class="card" style="margin-top:14px"><h2>Mês — outubro/2026 (kWh previstos por dia, cenário ${S_()})</h2><div class="cal">${cal}</div>
-   <div class="small" style="margin-top:8px">Contorno laranja: dias com leitura do medidor (valor medido = diferença para a leitura do dia anterior; o dia 30 é parcial e o 31 inclui o religamento total). Soma do mês no modelo: <b>${f1(l.reduce((s,a)=>s+mensal(a),0))}</b> kWh em 30 dias. Observação: o calendário usa a mesma curva para todas as semanas; o modelo não conhece a agenda real.</div></div>`;
+  const f=k=>l.reduce((s,a)=>s+a[k]*S.scale[a.id]*7/30*(tipo==='util'?(1-a.s)/5:a.s/2),0);
+  return {lo:f('lo'),med:f(S.scen),hi:f('hi')};
 }
-
+const BASES={A:'Medidor — leitura A (29/10 com tudo ligado)',B:'Medidor — leitura B (28–30/10 com aparelhos desligados)',M:'Modelo por aparelho (palpite)'};
+function mesTot(base){const u=baseDia('util',base),f=baseDia('fds',base);const o=k=>({k,v:22*u[k]+9*f[k]});const t=k=>30/7*(5*u[k]+2*f[k]);return {out:{lo:22*u.lo+9*f.lo,med:22*u.med+9*f.med,hi:22*u.hi+9*f.hi},d30:{lo:t('lo'),med:t('med'),hi:t('hi')},u,f}}
+function vSemana(){
+  const dias=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+  const u=baseDia('util'),f=baseDia('fds');
+  const val=dias.map((d,i)=>(i<5?u:f).med);
+  const semT=5*u.med+2*f.med,semLo=5*u.lo+2*f.lo,semHi=5*u.hi+2*f.hi;
+  const obs={29:4,30:3,31:10};
+  let cal=dias.map(d=>'<div class="h">'+d+'</div>').join('')+'<div style="visibility:hidden"></div>'.repeat(3);
+  for(let d=1;d<=31;d++){const dow=(d+2)%7,we=dow>=5,e=we?f:u;
+    cal+='<div class="'+(we?'we':'')+' '+(obs[d]!=null?'t':'')+'"><span class="small">'+d+'</span><b>'+f1(e.med)+'</b><span class="small">'+f1(e.lo)+'–'+f1(e.hi)+'</span>'+(obs[d]!=null?'<span class="small"><b>medido: '+obs[d]+'</b></span>':'')+'</div>'}
+  const tot=mesTot(S.base);
+  const linhas=['A','B','M'].map(b=>{const m=mesTot(b);return '<tr class="'+(b===S.base?'':'dim')+'"><td>'+BASES[b]+'</td><td class="r">'+f1(m.u.med)+'</td><td class="r">'+f1(m.f.med)+'</td><td class="r"><b>'+Math.round(m.d30.med)+'</b> ('+Math.round(m.d30.lo)+' a '+Math.round(m.d30.hi)+')</td><td class="r">'+brl(m.d30.med*S.tar)+'</td></tr>'}).join('');
+  const comp=[['Média jan–ago',255],['Agosto',202],['Setembro',401],['Outubro',366]].map(([n,k])=>'<tr><td>'+n+'</td><td class="r">'+k+'</td><td class="r">'+(k-tot.d30.med>=0?'+':'')+Math.round(k-tot.d30.med)+'</td><td class="r">'+Math.round(100*(k-tot.d30.med)/tot.d30.med)+'%</td></tr>').join('');
+  const porCat=Object.keys(CATS).map(k=>{const l=A.filter(vis).filter(a=>!S.off.has(a.id)&&a.cat===k);return {k,u:l.reduce((s,a)=>s+diaKWh(a,'util'),0),f:l.reduce((s,a)=>s+diaKWh(a,'fds'),0)}}).filter(x=>x.u+x.f>0);
+  return '<div class="callout w"><b>Base escolhida:</b> '+BASES[S.base]+'. Leituras A e B conflitam sobre o que estava ligado em 28→30/10 (veja o quadro "Como chegamos nos números medidos"). Troque a base no filtro acima e compare.</div>'
+  +'<div class="grid g2"><div class="card"><h2>Semana típica — kWh por dia (mediana)</h2>'+colsV(val,{labels:dias,colors:val.map((_,i)=>i<5?'#2457d6':'#7a3fd1'),fmt:f2})
+  +'<div class="small">Dia útil: <b>'+f1(u.med)+'</b> ('+f1(u.lo)+' a '+f1(u.hi)+') · fim de semana: <b>'+f1(f.med)+'</b> ('+f1(f.lo)+' a '+f1(f.hi)+') kWh/dia.<br>Semana: <b>'+f1(semT)+' kWh</b> ('+f1(semLo)+' a '+f1(semHi)+') = '+brl(semT*S.tar)+'.</div></div>'
+  +'<div class="card"><h2>Mês de 30 dias e outubro (31 dias)</h2><table><thead><tr><th>Base</th><th class="r">Dia útil</th><th class="r">Sáb/Dom</th><th class="r">30 dias (faixa)</th><th class="r">R$</th></tr></thead><tbody>'+linhas+'</tbody></table>'
+  +'<div class="small">Outubro (22 dias úteis + 9 sáb/dom), base escolhida: <b>'+Math.round(tot.out.med)+' kWh</b> ('+Math.round(tot.out.lo)+' a '+Math.round(tot.out.hi)+').</div></div></div>'
+  +'<div class="card" style="margin-top:14px"><h2>Estimativa × faturado (base escolhida, mês de 30 dias = '+Math.round(tot.d30.med)+' kWh)</h2><table><thead><tr><th>Referência</th><th class="r">kWh faturado</th><th class="r">Diferença</th><th class="r">%</th></tr></thead><tbody>'+comp+'</tbody></table><div class="small">Diferença positiva = faturado acima do que o medidor sustenta nesta base.</div></div>'
+  +'<div class="card" style="margin-top:14px"><h2>Mês — outubro/2026: mediana por dia (e faixa)</h2><div class="cal">'+cal+'</div><div class="small" style="margin-top:8px">Contorno laranja = dias com leitura do medidor (valor medido = diferença para a leitura anterior). Fim de semana em azul claro. A mesma curva se repete todas as semanas: o modelo não conhece a agenda real.</div></div>'
+  +'<div class="card" style="margin-top:14px"><h2>Como chegamos nos números medidos</h2><table><thead><tr><th>Leitura</th><th class="r">kWh</th><th class="r">Δ</th><th>Leitura A (relato mais recente)</th><th>Leitura B (dossiê)</th></tr></thead><tbody>'
+  +'<tr><td>28/10</td><td class="r">16.894</td><td class="r">—</td><td>—</td><td>19h: cervejeira, adega, freezer, lavadora, chuveiros e ar desligados</td></tr>'
+  +'<tr><td>29/10</td><td class="r">16.898</td><td class="r"><b>4</b></td><td>tudo ligado, 1 banho</td><td>aparelhos desligados; 1 banho de ~3 min na noite 29→30</td></tr>'
+  +'<tr><td>30/10 (05h25)</td><td class="r">16.901</td><td class="r"><b>3</b></td><td>tudo desligado, só a geladeira</td><td>idem; às 05h25 desliga os circuitos e deixa só a geladeira</td></tr>'
+  +'<tr><td>31/10</td><td class="r">16.911</td><td class="r"><b>10</b></td><td colspan="2">religou tudo (13h de 30/10), lavou roupa, forno, 2 banhos</td></tr></tbody></table>'
+  +'<div class="callout w" style="margin-top:10px"><b>Por que A e B diferem tanto:</b> sob a leitura A, o mesmo conjunto "tudo ligado" aparece com 4 kWh (dia 29) e com ~7 kWh de base (dia 31, descontando banhos, forno e lavadora). O intervalo de 1 kWh de resolução não fecha essa diferença (3–5 contra 6–8). Ou na leitura A havia aparelhos desligados em 28→30 (leitura B), ou há uma inconsistência que vale investigar. <b>Falta confirmar se cervejeira, adega e freezer estavam ligados no dia 29.</b></div></div>'
+  +(S.base==='M'?'<div class="card" style="margin-top:14px"><h2>Dia útil × fim de semana, por categoria (modelo, kWh/dia)</h2><table><thead><tr><th>Categoria</th><th class="r">Útil</th><th class="r">Sáb/Dom</th><th class="r">Diferença</th></tr></thead><tbody>'+porCat.map(x=>'<tr><td>'+CATS[x.k].n+'</td><td class="r">'+f2(x.u)+'</td><td class="r">'+f2(x.f)+'</td><td class="r">'+(x.f-x.u>=0?'+':'')+f2(x.f-x.u)+'</td></tr>').join('')+'</tbody></table></div>':'');
+}
 function vFat(){
   const L=FAT.filter(f=>f.k!=null&&f.m!=='Dez/25');
   const all=totalMes();
