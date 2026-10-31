@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#060916">
+<script>try{var q=/[?&]tema=(claro|escuro)/.exec(location.search);var t=q?(q[1]==="claro"?"light":"dark"):localStorage.getItem("tema");if(!t)t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
 <title>Painel de consumo de energia — Apto 104, SQN 406 Bl. B</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap');
@@ -12,6 +13,7 @@
  --bg:#060916;--surf:#0d1224;--card:rgba(16,24,50,.62);--card2:rgba(22,32,66,.55);
  --ink:#e8edff;--mut:#8f9bc7;--line:rgba(130,160,255,.16);--line2:rgba(130,160,255,.3);
  --acc:#4cc9f0;--acc2:#9085e9;--warn:#ffb454;--warnbg:rgba(255,180,84,.10);--bad:#ff6b7a;--badbg:rgba(255,107,122,.10);--ok:#4ee3a0;--okbg:rgba(78,227,160,.09);
+ --accrgb:76,201,240;--hi:#ffffff;--h1a:#ffffff;--h2:#dfe6ff;--avisoink:#ffd9a0;--tipbg:rgba(6,10,26,.96);--tipink:#ffffff;--inset:rgba(6,10,26,.7);--inset2:rgba(6,10,26,.55);--hdr:linear-gradient(180deg,rgba(10,16,38,.85),rgba(10,16,38,.35));--navbg:rgba(8,12,30,.78);--glow:0 0 22px rgba(76,201,240,.35);--glow2:0 0 14px rgba(76,201,240,.65);--shadow:0 10px 40px rgba(0,0,0,.28);--a1:rgba(76,201,240,.13);--a2:rgba(144,133,233,.15);--a3:rgba(255,180,84,.08);--gridbg:rgba(130,160,255,.07);--orb:.35;--grain:.06;--onacc:#04101f;--grid:rgba(150,170,255,.14);--band:rgba(255,255,255,.05);--acct:#9fe4f8;--o2:#ff8a5b;--bad2:#e66767;--c1:#3987e5;--c2:#d95926;--c3:#199e70;--c4:#c98500;--c5:#d55181;--c6:#008300;--c7:#9085e9;
  --disp:'Chakra Petch','Segoe UI',system-ui,sans-serif;--body:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
 }
 *{box-sizing:border-box}
@@ -19,36 +21,36 @@ html{color-scheme:dark}
 body{margin:0;font:14px/1.5 var(--body);background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden}
 /* ---------- atmosfera ---------- */
 .atmo{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;background:
- radial-gradient(1200px 700px at 12% -10%,rgba(76,201,240,.13),transparent 60%),
- radial-gradient(900px 600px at 95% 10%,rgba(144,133,233,.15),transparent 60%),
- radial-gradient(800px 600px at 50% 120%,rgba(255,180,84,.08),transparent 60%),var(--bg)}
-.atmo:before{content:"";position:absolute;inset:-50%;background-image:linear-gradient(rgba(130,160,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(130,160,255,.07) 1px,transparent 1px);background-size:46px 46px;transform:perspective(700px) rotateX(58deg) translateY(-10%);mask-image:linear-gradient(to bottom,transparent 5%,#000 45%,transparent 95%);animation:gridmove 14s linear infinite}
-.atmo:after{content:"";position:absolute;inset:0;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
-.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.35;animation:float 18s ease-in-out infinite}
+ radial-gradient(1200px 700px at 12% -10%,var(--a1),transparent 60%),
+ radial-gradient(900px 600px at 95% 10%,var(--a2),transparent 60%),
+ radial-gradient(800px 600px at 50% 120%,var(--a3),transparent 60%),var(--bg)}
+.atmo:before{content:"";position:absolute;inset:-50%;background-image:linear-gradient(var(--gridbg) 1px,transparent 1px),linear-gradient(90deg,var(--gridbg) 1px,transparent 1px);background-size:46px 46px;transform:perspective(700px) rotateX(58deg) translateY(-10%);mask-image:linear-gradient(to bottom,transparent 5%,#000 45%,transparent 95%);animation:gridmove 14s linear infinite}
+.atmo:after{content:"";position:absolute;inset:0;opacity:var(--grain);mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:var(--orb);animation:float 18s ease-in-out infinite}
 .orb.a{width:380px;height:380px;background:#2b6dff;left:-80px;top:30%}.orb.b{width:320px;height:320px;background:#7b4dff;right:-60px;top:55%;animation-delay:-6s}.orb.c{width:260px;height:260px;background:#00d4c0;left:45%;top:-80px;animation-delay:-11s;opacity:.2}
 @keyframes gridmove{to{background-position:0 46px}}
 @keyframes float{50%{transform:translate(40px,-30px) scale(1.12)}}
 /* ---------- cabeçalho ---------- */
-header{position:relative;padding:22px 28px 14px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(10,16,38,.85),rgba(10,16,38,.35));backdrop-filter:blur(10px);overflow:hidden}
+header{position:relative;padding:22px 28px 14px;border-bottom:1px solid var(--line);background:var(--hdr);backdrop-filter:blur(10px);overflow:hidden}
 header:after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--acc),transparent);animation:sweep 4.5s ease-in-out infinite}
 @keyframes sweep{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 .top{display:flex;gap:18px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
-h1{margin:0;font:700 24px/1.15 var(--disp);letter-spacing:.02em;background:linear-gradient(92deg,#fff 0%,var(--acc) 55%,var(--acc2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-h2{font:600 15px/1.25 var(--disp);letter-spacing:.04em;text-transform:uppercase;margin:0 0 12px;color:#dfe6ff}
-h3{font:600 13px var(--disp);margin:14px 0 6px;color:#cdd7ff}
+h1{margin:0;font:700 24px/1.15 var(--disp);letter-spacing:.02em;background:linear-gradient(92deg,var(--h1a) 0%,var(--acc) 55%,var(--acc2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font:600 15px/1.25 var(--disp);letter-spacing:.04em;text-transform:uppercase;margin:0 0 12px;color:var(--h2)}
+h3{font:600 13px var(--disp);margin:14px 0 6px;color:var(--h2)}
 .sub{color:var(--mut);font-size:12.5px;margin-top:4px;max-width:760px}
-.odo{display:flex;align-items:center;gap:10px;padding:9px 14px;border:1px solid var(--line2);border-radius:12px;background:rgba(6,10,26,.7);box-shadow:0 0 24px rgba(76,201,240,.12) inset}
+.odo{display:flex;align-items:center;gap:10px;padding:9px 14px;border:1px solid var(--line2);border-radius:12px;background:var(--inset);box-shadow:0 0 24px rgba(76,201,240,.12) inset}
 .odo small{display:block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
-.odo b{font:700 22px var(--mono);color:var(--acc);text-shadow:0 0 14px rgba(76,201,240,.65);letter-spacing:.04em}
+.odo b{font:700 22px var(--mono);color:var(--acc);text-shadow:var(--glow2);letter-spacing:.04em}
 .led{width:11px;height:11px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(78,227,160,.7);animation:pulse 1.6s infinite}
 @keyframes pulse{70%{box-shadow:0 0 0 12px rgba(78,227,160,0)}100%{box-shadow:0 0 0 0 rgba(78,227,160,0)}}
-.aviso{margin-top:12px;padding:9px 13px;border-radius:10px;background:var(--warnbg);border:1px solid rgba(255,180,84,.3);color:#ffd9a0;font-size:12.5px}
+.aviso{margin-top:12px;padding:9px 13px;border-radius:10px;background:var(--warnbg);border:1px solid rgba(255,180,84,.3);color:var(--avisoink);font-size:12.5px}
 /* ---------- navegação ---------- */
-nav{display:flex;gap:2px;flex-wrap:wrap;padding:8px 20px 0;background:rgba(8,12,30,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+nav{display:flex;gap:2px;flex-wrap:wrap;padding:8px 20px 0;background:var(--navbg);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
 nav button{position:relative;border:0;background:none;padding:11px 15px;font:600 12.5px var(--disp);letter-spacing:.06em;text-transform:uppercase;color:var(--mut);cursor:pointer;transition:color .25s}
-nav button:hover{color:#fff}
+nav button:hover{color:var(--hi)}
 nav button:after{content:"";position:absolute;left:12%;right:12%;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--acc);box-shadow:0 0 16px var(--acc);transform:scaleX(0);transition:transform .35s cubic-bezier(.2,.9,.2,1)}
-nav button.on{color:#fff}nav button.on:after{transform:scaleX(1)}
+nav button.on{color:var(--hi)}nav button.on:after{transform:scaleX(1)}
 main{padding:18px 26px 60px;max-width:1320px;margin:auto}
 #view{animation:enter .55s cubic-bezier(.2,.8,.2,1)}
 @keyframes enter{from{opacity:0;transform:translateY(14px)}}
@@ -56,27 +58,27 @@ main{padding:18px 26px 60px;max-width:1320px;margin:auto}
 .filters{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-end;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px;margin-bottom:16px;backdrop-filter:blur(12px)}
 .fg{display:flex;flex-direction:column;gap:5px}
 .fg>label,.fg>span.l{font:600 10.5px var(--disp);color:var(--mut);text-transform:uppercase;letter-spacing:.12em}
-.seg{display:inline-flex;border:1px solid var(--line2);border-radius:10px;overflow:hidden;background:rgba(6,10,26,.55)}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:10px;overflow:hidden;background:var(--inset2)}
 .seg button{border:0;background:none;color:var(--mut);padding:7px 13px;font:500 13px var(--body);cursor:pointer;border-right:1px solid var(--line);transition:all .25s}
-.seg button:last-child{border:0}.seg button:hover{color:#fff;background:rgba(76,201,240,.08)}
-.seg button.on{background:linear-gradient(135deg,rgba(76,201,240,.9),rgba(144,133,233,.9));color:#04101f;font-weight:600;box-shadow:0 0 18px rgba(76,201,240,.45)}
-input[type=text],input[type=number],select{font:500 13px var(--mono);padding:7px 10px;border:1px solid var(--line2);border-radius:10px;background:rgba(6,10,26,.7);color:var(--ink);outline:none;transition:box-shadow .2s,border-color .2s}
+.seg button:last-child{border:0}.seg button:hover{color:var(--hi);background:rgba(76,201,240,.08)}
+.seg button.on{background:linear-gradient(135deg,var(--acc),var(--acc2));color:var(--onacc);font-weight:600;box-shadow:0 0 18px rgba(76,201,240,.45)}
+input[type=text],input[type=number],select{font:500 13px var(--mono);padding:7px 10px;border:1px solid var(--line2);border-radius:10px;background:var(--inset);color:var(--ink);outline:none;transition:box-shadow .2s,border-color .2s}
 input[type=text]:focus,input[type=number]:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(76,201,240,.22)}
 input[type=number]{width:92px}
 input[type=range]{accent-color:var(--acc);width:120px}
 input[type=checkbox]{accent-color:var(--acc);width:16px;height:16px}
 .chips{display:flex;flex-wrap:wrap;gap:7px}
-.chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line2);border-radius:999px;padding:4px 12px;cursor:pointer;background:rgba(6,10,26,.55);font-size:12.5px;user-select:none;color:var(--ink);transition:transform .2s,box-shadow .2s,opacity .2s}
+.chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line2);border-radius:999px;padding:4px 12px;cursor:pointer;background:var(--inset2);font-size:12.5px;user-select:none;color:var(--ink);transition:transform .2s,box-shadow .2s,opacity .2s}
 .chip:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.35)}
 .chip i{width:10px;height:10px;border-radius:50%;display:inline-block;box-shadow:0 0 9px currentColor}.chip.off{opacity:.35}
 /* ---------- cartões ---------- */
 .grid{display:grid;gap:16px}.g4{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}.g2{grid-template-columns:repeat(auto-fit,minmax(min(430px,100%),1fr))}
-.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;min-width:0;overflow-x:auto;backdrop-filter:blur(12px);box-shadow:0 10px 40px rgba(0,0,0,.28);animation:rise .7s cubic-bezier(.2,.8,.2,1) both;transition:border-color .3s,box-shadow .3s,transform .3s}
-.card:before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(76,201,240,.13),transparent 55%)}
+.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;min-width:0;overflow-x:auto;backdrop-filter:blur(12px);box-shadow:var(--shadow);animation:rise .7s cubic-bezier(.2,.8,.2,1) both;transition:border-color .3s,box-shadow .3s,transform .3s}
+.card:before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(var(--accrgb),.13),transparent 55%)}
 .card:hover{border-color:var(--line2)}.card:hover:before{opacity:1}
 @keyframes rise{from{opacity:0;transform:translateY(22px) scale(.985)}}
 .kpi{overflow:hidden}
-.kpi .v{font:700 30px/1.1 var(--disp);letter-spacing:.01em;color:#fff;text-shadow:0 0 22px rgba(76,201,240,.35);font-variant-numeric:tabular-nums}
+.kpi .v{font:700 30px/1.1 var(--disp);letter-spacing:.01em;color:var(--hi);text-shadow:var(--glow);font-variant-numeric:tabular-nums}
 .kpi .t{font:600 10.5px var(--disp);color:var(--mut);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px;min-height:2.4em}
 .kpi .n{font-size:12px;color:var(--mut);margin-top:6px}
 .kpi:after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--acc),var(--acc2));opacity:.85}
@@ -108,7 +110,7 @@ svg g[data-tip] rect{transform-box:fill-box;transform-origin:left;animation:grow
 @keyframes growy{from{transform:scaleY(0);opacity:.2}}
 @keyframes growx{from{transform:scaleX(0);opacity:.2}}
 @keyframes spin{from{opacity:0;transform:rotate(-70deg) scale(.88)}}
-#tip{position:fixed;z-index:99;pointer-events:none;max-width:260px;padding:8px 11px;border-radius:10px;background:rgba(6,10,26,.96);border:1px solid var(--acc);color:#fff;font:500 12px var(--body);box-shadow:0 0 24px rgba(76,201,240,.35);opacity:0;transform:translate(-50%,-130%) scale(.96);transition:opacity .12s,transform .12s}
+#tip{position:fixed;z-index:99;pointer-events:none;max-width:260px;padding:8px 11px;border-radius:10px;background:var(--tipbg);border:1px solid var(--acc);color:var(--tipink);font:500 12px var(--body);box-shadow:0 0 24px rgba(var(--accrgb),.35);opacity:0;transform:translate(-50%,-130%) scale(.96);transition:opacity .12s,transform .12s}
 #tip.on{opacity:1;transform:translate(-50%,-130%) scale(1)}
 /* medidor (anéis) */
 .hero{display:grid;grid-template-columns:minmax(220px,270px) 1fr;gap:20px;align-items:center}
@@ -116,20 +118,20 @@ svg g[data-tip] rect{transform-box:fill-box;transform-origin:left;animation:grow
 .gauge .trk{fill:none;stroke:rgba(130,160,255,.13);stroke-width:11;stroke-linecap:round}
 .gauge .val{fill:none;stroke-width:11;stroke-linecap:round;animation:gdraw 1.6s cubic-bezier(.2,.8,.2,1) both;filter:drop-shadow(0 0 6px currentColor)}
 @keyframes gdraw{from{stroke-dasharray:0 var(--c)}to{stroke-dasharray:var(--f) var(--c)}}
-.gauge text.big{font:700 26px var(--disp);fill:#fff}.gauge text.cap{font:600 9.5px var(--disp);letter-spacing:.14em;fill:var(--mut);text-transform:uppercase}
+.gauge text.big{font:700 26px var(--disp);fill:var(--hi)}.gauge text.cap{font:600 9.5px var(--disp);letter-spacing:.14em;fill:var(--mut);text-transform:uppercase}
 .gl{display:grid;gap:10px}
-.gl .row{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:12px;background:rgba(6,10,26,.45);border:1px solid var(--line)}
+.gl .row{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:12px;background:var(--inset2);border:1px solid var(--line)}
 .gl .row i{width:12px;height:12px;border-radius:50%;box-shadow:0 0 12px currentColor;flex:none}
 .gl .row span{flex:1;color:var(--mut)}
-.gl .row b{font:700 17px var(--mono);color:#fff}
+.gl .row b{font:700 17px var(--mono);color:var(--hi)}
 /* calendário */
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-.cal div{border:1px solid var(--line);border-radius:12px;padding:6px 8px;min-height:68px;font-size:12px;background:rgba(76,201,240,calc(var(--a,0)*.42 + .03));transition:transform .2s,box-shadow .2s,border-color .2s;animation:rise .6s both}
+.cal div{border:1px solid var(--line);border-radius:12px;padding:6px 8px;min-height:68px;font-size:12px;background:rgba(var(--accrgb),calc(var(--a,0)*.42 + .03));transition:transform .2s,box-shadow .2s,border-color .2s;animation:rise .6s both}
 .cal div:hover{transform:translateY(-3px) scale(1.04);border-color:var(--acc);box-shadow:0 8px 26px rgba(76,201,240,.3);z-index:2}
 .cal .h{background:none;border:0;min-height:0;color:var(--mut);text-align:center;font:600 10.5px var(--disp);letter-spacing:.1em;text-transform:uppercase;box-shadow:none;animation:none}
 .cal .h:hover{transform:none;box-shadow:none}
 .cal .we{border-color:rgba(144,133,233,.45)}.cal .t{outline:2px solid var(--warn);outline-offset:-1px;box-shadow:0 0 20px rgba(255,180,84,.3)}
-.cal b{display:block;font:700 16px var(--disp);color:#fff}
+.cal b{display:block;font:700 16px var(--disp);color:var(--hi)}
 .tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .hide{display:none}
 ::-webkit-scrollbar{height:8px;width:8px}::-webkit-scrollbar-thumb{background:rgba(130,160,255,.3);border-radius:8px}
@@ -147,6 +149,27 @@ svg g[data-tip] rect{transform-box:fill-box;transform-origin:left;animation:grow
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 @media print{.atmo,#tip{display:none}body{background:#fff;color:#000}.card{background:#fff;box-shadow:none;border-color:#ccc}h1{color:#000;background:none}}
+
+:root[data-theme=light]{
+ color-scheme:light;
+ --bg:#eef2fb;--surf:#f7f9ff;--card:rgba(255,255,255,.80);--card2:rgba(255,255,255,.7);
+ --ink:#141b34;--mut:#566086;--line:rgba(40,70,150,.14);--line2:rgba(40,70,150,.28);
+ --acc:#0a86bd;--acc2:#6250d6;--accrgb:10,134,189;--warn:#b45309;--warnbg:rgba(234,138,0,.12);--bad:#c9303f;--badbg:rgba(220,60,80,.09);--ok:#0b7a4f;--okbg:rgba(20,150,100,.10);
+ --hi:#0b1230;--h1a:#0b1230;--h2:#1c2750;--avisoink:#6b3a05;--tipbg:rgba(255,255,255,.97);--tipink:#141b34;
+ --inset:rgba(255,255,255,.9);--inset2:rgba(255,255,255,.65);--hdr:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.55));--navbg:rgba(246,249,255,.85);
+ --glow:0 0 18px rgba(10,134,189,.18);--glow2:0 0 10px rgba(10,134,189,.25);--shadow:0 10px 30px rgba(40,60,120,.12);
+ --a1:rgba(10,134,189,.14);--a2:rgba(98,80,214,.12);--a3:rgba(237,161,0,.10);--gridbg:rgba(40,70,150,.09);--orb:.18;--grain:.04;--onacc:#fff;
+ --grid:rgba(40,70,150,.14);--band:rgba(40,70,150,.06);--acct:#066a96;--o2:#d9622b;--bad2:#d64545;
+ --c1:#2a78d6;--c2:#eb6834;--c3:#1baf7a;--c4:#eda100;--c5:#e87ba4;--c6:#008300;--c7:#6250d6;
+}
+:root[data-theme=light] .orb.a{background:#7cb8ff}:root[data-theme=light] .orb.b{background:#b8a6ff}:root[data-theme=light] .orb.c{background:#7be3d6}
+:root[data-theme=light] .odo b{color:#0a7fb0}
+:root[data-theme=light] .gauge .trk{stroke:rgba(40,70,150,.12)}
+:root[data-theme=light] .gauge{filter:drop-shadow(0 0 10px rgba(10,134,189,.18))}
+:root[data-theme=light] .card svg rect[data-tip]:hover,:root[data-theme=light] .card svg path[data-tip]:hover{filter:brightness(1.12) drop-shadow(0 0 5px currentColor)}
+.tt{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line2);background:var(--inset);color:var(--ink);padding:8px 13px;border-radius:12px;font:600 12px var(--disp);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:box-shadow .25s,transform .25s}
+.tt:hover{transform:translateY(-2px);box-shadow:0 0 18px rgba(var(--accrgb),.4)}
+.tt .ic{font-size:15px;line-height:1}
 </style>
 </head>
 <body>
@@ -157,9 +180,10 @@ svg g[data-tip] rect{transform-box:fill-box;transform-origin:left;animation:grow
       <h1>Consumo de energia · Apto 104</h1>
       <div class="sub">SQN 406 Bl. B, Brasília/DF — faturas Luz/Neoenergia jan–out/2026 · estimativa por aparelho · testes de 28 a 31/10/2026 · medidor Dowertech DOW1310L nº 1630520</div>
     </div>
-    <div class="odo"><span class="led" title="pulso do medidor"></span><div><small>Leitura ativa em 31/10</small><b class="cnt" data-from="16880" data-to="16911" data-dec="0">16.911</b> <span class="small">kWh</span></div></div>
+    <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end"><button class="tt" id="tema" aria-label="Alternar tema claro/escuro"><span class="ic">◐</span><span id="tlab">Tema</span></button>
+    <div class="odo"><span class="led" title="pulso do medidor"></span><div><small>Leitura ativa em 31/10</small><b class="cnt" data-from="16880" data-to="16911" data-dec="0">16.911</b> <span class="small">kWh</span></div></div></div>
   </div>
-  <div class="aviso"><b>Estimativa de engenharia de cargas, não é medição nem laudo.</b> Geladeira, cervejeira, adega e freezer têm a maior incerteza (faixas de etiqueta/anúncio). Use os botões para alternar entre o consumo estimado por aparelho e o consumo apoiado nas leituras do medidor e veja a diferença para o que foi faturado. <b>Versão 4:</b> aba Cruzamento, bases A e B do medidor e quadro de diferença mensal em R$.</div>
+  <div class="aviso"><b>Estimativa de engenharia de cargas, não é medição nem laudo.</b> Geladeira, cervejeira, adega e freezer têm a maior incerteza (faixas de etiqueta/anúncio). Use os botões para alternar entre o consumo estimado por aparelho e o consumo apoiado nas leituras do medidor e veja a diferença para o que foi faturado. <b>Versão 6:</b> tema claro e escuro (botão no topo), bases A e B do medidor e quadro de diferença mensal em R$.</div>
 </header>
 <nav id="tabs"></nav>
 <main>
@@ -169,7 +193,7 @@ svg g[data-tip] rect{transform-box:fill-box;transform-origin:left;animation:grow
 
 <script>
 /* ===================== DADOS ===================== */
-const CATS={ref:{n:'Refrigeração 24 h',c:'#3987e5'},ban:{n:'Banho',c:'#d95926'},coz:{n:'Cozinha',c:'#c98500'},ent:{n:'Entretenimento',c:'#9085e9'},cli:{n:'Climatização',c:'#199e70'},luz:{n:'Iluminação e stand-by',c:'#d55181'},out:{n:'Outros',c:'#008300'}};
+const CATS={ref:{n:'Refrigeração 24 h',c:'var(--c1)'},ban:{n:'Banho',c:'var(--c2)'},coz:{n:'Cozinha',c:'var(--c4)'},ent:{n:'Entretenimento',c:'var(--c7)'},cli:{n:'Climatização',c:'var(--c3)'},luz:{n:'Iluminação e stand-by',c:'var(--c5)'},out:{n:'Outros',c:'var(--c6)'}};
 const PROF={ // pesos por hora (0..23)
  flat:Array(24).fill(1),
  banho:h=>({6:.3,21:.7}[h]||0),
@@ -266,19 +290,19 @@ function donut(items){
     const p=(r_,a)=>[cx+r_*Math.cos(a),cy+r_*Math.sin(a)];
     const [x0,y0]=p(R,a0),[x1,y1]=p(R,a1-.0001),[x2,y2]=p(r,a1-.0001),[x3,y3]=p(r,a0);
     s+=`<path d="M${x0},${y0} A${R},${R} 0 ${lg} 1 ${x1},${y1} L${x2},${y2} A${r},${r} 0 ${lg} 0 ${x3},${y3}Z" fill="${it.c}"><title>${it.l}: ${f1(it.v)} (${(100*it.v/T).toFixed(0)}%)</title></path>`;a0=a1});
-  s+=`<text x="${cx}" y="${cy-2}" text-anchor="middle" style="font-size:18px;font-weight:700;fill:#e8edff">${f1(T)}</text><text x="${cx}" y="${cy+14}" text-anchor="middle">${unit()}</text>`;
+  s+=`<text x="${cx}" y="${cy-2}" text-anchor="middle" style="font-size:18px;font-weight:700;fill:var(--ink)">${f1(T)}</text><text x="${cx}" y="${cy+14}" text-anchor="middle">${unit()}</text>`;
   items.forEach((it,i)=>{const y=40+i*24;s+=`<rect x="240" y="${y-9}" width="11" height="11" rx="2" fill="${it.c}"/><text x="258" y="${y}">${it.l}</text><text x="430" y="${y}" text-anchor="end">${(100*it.v/T).toFixed(0)}%</text>`});
   return s+'</svg>';
 }
 function colsV(vals,{labels,colors,h=190,w=620,fmt=f1,line=null,hl=null}){
   const n=vals.length,pl=34,pb=24,pt=14,bw=(w-pl)/n,max=Math.max(...vals.map(v=>v||0),line||0)*1.12||1;
   let s=`<svg viewBox="0 0 ${w} ${h}" width="100%">`;
-  for(let g=0;g<=4;g++){const y=pt+(h-pt-pb)*(1-g/4);s+=`<line x1="${pl}" x2="${w}" y1="${y}" y2="${y}" stroke="rgba(150,170,255,.14)"/><text x="${pl-4}" y="${y+4}" text-anchor="end">${fmt(max*g/4)}</text>`}
+  for(let g=0;g<=4;g++){const y=pt+(h-pt-pb)*(1-g/4);s+=`<line x1="${pl}" x2="${w}" y1="${y}" y2="${y}" stroke="var(--grid)"/><text x="${pl-4}" y="${y+4}" text-anchor="end">${fmt(max*g/4)}</text>`}
   vals.forEach((v,i)=>{const x=pl+i*bw+bw*.15,bh=v==null?0:(h-pt-pb)*v/max,y=h-pb-bh;
-    if(v==null)s+=`<text x="${x+bw*.35}" y="${h-pb-6}" text-anchor="middle" style="fill:#e66767">sem dado</text>`;
-    else s+=`<rect x="${x}" y="${y}" width="${bw*.7}" height="${bh}" rx="3" fill="${colors[i]}"${hl&&hl[i]?' stroke="#e66767" stroke-width="2"':''}><title>${labels[i]}: ${fmt(v)}</title></rect><text x="${x+bw*.35}" y="${y-3}" text-anchor="middle">${fmt(v)}</text>`;
+    if(v==null)s+=`<text x="${x+bw*.35}" y="${h-pb-6}" text-anchor="middle" style="fill:var(--bad2)">sem dado</text>`;
+    else s+=`<rect x="${x}" y="${y}" width="${bw*.7}" height="${bh}" rx="3" fill="${colors[i]}"${hl&&hl[i]?' stroke="var(--bad2)" stroke-width="2"':''}><title>${labels[i]}: ${fmt(v)}</title></rect><text x="${x+bw*.35}" y="${y-3}" text-anchor="middle">${fmt(v)}</text>`;
     s+=`<text x="${x+bw*.35}" y="${h-8}" text-anchor="middle">${labels[i]}</text>`});
-  if(line!=null){const y=pt+(h-pt-pb)*(1-line/max);s+=`<line x1="${pl}" x2="${w}" y1="${y}" y2="${y}" stroke="#4cc9f0" stroke-dasharray="5 4" stroke-width="1.8"/><text x="${w-4}" y="${y-5}" text-anchor="end" style="fill:#9fe4f8;paint-order:stroke;stroke:#0d1224;stroke-width:4px">modelo ${S_()}: ${fmt(line)}</text>`}
+  if(line!=null){const y=pt+(h-pt-pb)*(1-line/max);s+=`<line x1="${pl}" x2="${w}" y1="${y}" y2="${y}" stroke="var(--acc)" stroke-dasharray="5 4" stroke-width="1.8"/><text x="${w-4}" y="${y-5}" text-anchor="end" style="fill:var(--acct);paint-order:stroke;stroke:var(--surf);stroke-width:4px">modelo ${S_()}: ${fmt(line)}</text>`}
   return s+'</svg>';
 }
 const S_=()=>SC[S.scen];
@@ -287,9 +311,9 @@ function stacked24(){
   const hrs=Array.from({length:24},()=>({}));let T=Array(24).fill(0);
   l.forEach(a=>{hora(a,diaKWh(a,tipo)).forEach((v,h)=>{hrs[h][a.cat]=(hrs[h][a.cat]||0)+v;T[h]+=v})});
   const w=640,h=240,pl=34,pb=26,pt=10,bw=(w-pl)/24,max=Math.max(...T,.01)*1.1;let s=`<svg viewBox="0 0 ${w} ${h}" width="100%">`;
-  for(let g=0;g<=4;g++){const y=pt+(h-pt-pb)*(1-g/4);s+=`<line x1="${pl}" x2="${w}" y1="${y}" y2="${y}" stroke="rgba(150,170,255,.14)"/><text x="${pl-4}" y="${y+4}" text-anchor="end">${(max*g/4).toFixed(2)}</text>`}
+  for(let g=0;g<=4;g++){const y=pt+(h-pt-pb)*(1-g/4);s+=`<line x1="${pl}" x2="${w}" y1="${y}" y2="${y}" stroke="var(--grid)"/><text x="${pl-4}" y="${y+4}" text-anchor="end">${(max*g/4).toFixed(2)}</text>`}
   // faixa ausente 7-15
-  s+=`<rect x="${pl+7*bw}" y="${pt}" width="${8*bw}" height="${h-pt-pb}" fill="rgba(255,255,255,.05)" opacity=".6"/><text x="${pl+11*bw}" y="${pt+12}" text-anchor="middle">fora de casa (7h–15h)</text>`;
+  s+=`<rect x="${pl+7*bw}" y="${pt}" width="${8*bw}" height="${h-pt-pb}" fill="var(--band)" opacity=".6"/><text x="${pl+11*bw}" y="${pt+12}" text-anchor="middle">fora de casa (7h–15h)</text>`;
   hrs.forEach((c,hh)=>{let y=h-pb;Object.keys(CATS).forEach(k=>{const v=c[k]||0;if(!v)return;const bh=(h-pt-pb)*v/max;y-=bh;s+=`<rect x="${pl+hh*bw+1}" y="${y}" width="${bw-2}" height="${bh}" fill="${CATS[k].c}"><title>${hh}h — ${CATS[k].n}: ${(v*1000).toFixed(0)} Wh</title></rect>`});
     s+=`<text x="${pl+hh*bw+bw/2}" y="${h-10}" text-anchor="middle">${hh}</text>`});
   return {svg:s+'</svg>',T,tipo};
@@ -308,7 +332,7 @@ function renderFilters(){
   ${(S.per==='dia'&&S.tab!=='semana')||S.tab==='horas'?`<div class="fg"><span class="l">Tipo de dia</span>${seg('dt',[['util','Útil (seg–sex)'],['fds','Sáb/Dom'],['media','Média']],S.dt)}</div>`:''}
   <div class="fg"><label>Tarifa (R$/kWh)</label><input type="number" step="0.01" id="tar" value="${S.tar}"></div>
   <div class="fg"><label>Buscar aparelho</label><input type="text" id="q" value="${S.q}" placeholder="ex.: chuveiro" style="width:150px"></div>
-  <div class="fg" style="flex:1 1 300px"><span class="l">Categorias (clique para ligar/desligar)</span><div class="chips">${Object.entries(CATS).map(([k,c])=>`<span class="chip ${S.cats.has(k)?'':'off'}" data-c="${k}"><i style="background:${c.c}"></i>${c.n}</span>`).join('')}</div></div>`;
+  <div class="fg" style="flex:1 1 100%"><span class="l">Categorias (clique para ligar/desligar)</span><div class="chips">${Object.entries(CATS).map(([k,c])=>`<span class="chip ${S.cats.has(k)?'':'off'}" data-c="${k}"><i style="background:${c.c}"></i>${c.n}</span>`).join('')}</div></div>`;
   const bind=(id,fn)=>{const e=document.getElementById(id);if(e)e.querySelectorAll('button').forEach(b=>b.onclick=()=>{fn(b.dataset.v);renderFilters();render()})};
   bind('sc',v=>S.scen=v);bind('cb',v=>S.base=v);bind('pe',v=>S.per=v);bind('dt',v=>S.dt=v);
   const t=document.getElementById('tar');if(t)t.oninput=()=>{S.tar=parseFloat(t.value)||0;render()};
@@ -328,7 +352,7 @@ function vGeral(){
   const cat=Object.keys(CATS).map(k=>({l:CATS[k].n,c:CATS[k].c,v:l.filter(x=>x.a.cat===k).reduce((s,x)=>s+x.v,0)})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
   const top=l.slice().sort((a,b)=>b.v-a.v).slice(0,12).map(x=>({l:x.a.n.replace(/ \(.*\)/,''),v:x.v,c:CATS[x.a.cat].c}));
   const media=255;
-  return `<div class="card"><h2>Medidor de comparação — kWh por mês</h2>${gaugeBlock([{l:'Estimado por aparelho ('+S_()+')',v:all,c:'#4cc9f0'},{l:'Média faturada jan–ago',v:255,c:'#ffb454'},{l:'Outubro faturado',v:366,c:'#ff8a5b'},{l:'Setembro faturado',v:401,c:'#ff6b7a'}],450,'kWh/mês')}</div>
+  return `<div class="card"><h2>Medidor de comparação — kWh por mês</h2>${gaugeBlock([{l:'Estimado por aparelho ('+S_()+')',v:all,c:'var(--acc)'},{l:'Média faturada jan–ago',v:255,c:'var(--warn)'},{l:'Outubro faturado',v:366,c:'var(--o2)'},{l:'Setembro faturado',v:401,c:'var(--bad)'}],450,'kWh/mês')}</div>
   <div class="grid g4" style="margin-top:16px">
    <div class="card kpi"><div class="t">Consumo do filtro — ${perLabel()}</div><div class="v">${f1(T)} kWh</div><div class="n">${brl(T*S.tar)} a ${f2(S.tar)} R$/kWh</div></div>
    <div class="card kpi"><div class="t">Total de todos os aparelhos / mês (${S_()})</div><div class="v">${f1(all)} kWh</div><div class="n">${brl(all*S.tar)} · ${f1(all/30)} kWh/dia</div></div>
@@ -339,7 +363,7 @@ function vGeral(){
    <div class="card"><h2>Por categoria — ${perLabel()}</h2>${donut(cat)}</div>
    <div class="card"><h2>Maiores consumidores — ${unit()}</h2>${barH(top)}</div>
   </div>
-  <div class="card" style="margin-top:14px"><h2>Modelo × consumo faturado</h2>${colsV(FAT.filter(f=>f.f==='luz'&&f.m!=='Dez/25'||f.f==='neo').map(f=>f.k),{labels:FAT.filter(f=>f.f==='luz'&&f.m!=='Dez/25'||f.f==='neo').map(f=>f.m),colors:FAT.filter(f=>f.f==='luz'&&f.m!=='Dez/25'||f.f==='neo').map(f=>f.flag==='dup'?'#c98500':f.f==='neo'?'#e66767':'#3987e5'),line:all,fmt:x=>Math.round(x)+''})}
+  <div class="card" style="margin-top:14px"><h2>Modelo × consumo faturado</h2>${colsV(FAT.filter(f=>f.f==='luz'&&f.m!=='Dez/25'||f.f==='neo').map(f=>f.k),{labels:FAT.filter(f=>f.f==='luz'&&f.m!=='Dez/25'||f.f==='neo').map(f=>f.m),colors:FAT.filter(f=>f.f==='luz'&&f.m!=='Dez/25'||f.f==='neo').map(f=>f.flag==='dup'?'var(--c4)':f.f==='neo'?'var(--bad2)':'var(--c1)'),line:all,fmt:x=>Math.round(x)+''})}
    <div class="small">Barras azuis: faturas da Luz · amarela: maio (cópia de abril) · vermelhas: Neoenergia (set/out, valores do dossiê). A linha tracejada é o total estimado por aparelho no cenário ${S_()}.</div>
    ${all<=450?'':''}</div>
   <div class="callout w"><b>Leitura rápida (v3):</b> o cruzamento entre o teste de 28–31/10 e as cargas aponta um consumo real de <b>≈ 250 a 345 kWh/mês</b> (central ≈ 270), dependendo da hora exata da foto de 31/10. A média jan–ago (255) e outubro (366) cabem nessa faixa; <b>setembro (401) fica acima</b>. Nenhuma carga escondida aparece. Veja a aba <b>Cruzamento</b>.</div>
@@ -395,7 +419,7 @@ function perdaCard(tot){
   const dmLo=ms.reduce((s,[n,k,t])=>s+(k-hi)*t,0)/ms.length, dmHi=ms.reduce((s,[n,k,t])=>s+(k-lo)*t,0)/ms.length;
   const cor=dm>0?'var(--bad)':'var(--ok)';
   return '<div class="card" style="margin-bottom:14px;border-left:4px solid '+cor+'"><h2>Tamanho da diferença mensal (hipótese de trabalho)</h2>'
-  +'<div class="hero">'+gaugeBlock([{l:'Estimado ('+BASES[S.base].split(' (')[0]+')',v:est,c:'#4cc9f0'},{l:'Faturado set/out (média)',v:384,c:'#ff8a5b'}],450,'kWh/mês',true)+'<div><div class="grid g4"><div class="card kpi"><div class="t">Consumo estimado/mês (base escolhida)</div><div class="v">'+Math.round(est)+' kWh</div><div class="n">faixa '+Math.round(lo)+' a '+Math.round(hi)+'</div></div>'
+  +'<div class="hero">'+gaugeBlock([{l:'Estimado ('+BASES[S.base].split(' (')[0]+')',v:est,c:'var(--acc)'},{l:'Faturado set/out (média)',v:384,c:'var(--o2)'}],450,'kWh/mês',true)+'<div><div class="grid g4"><div class="card kpi"><div class="t">Consumo estimado/mês (base escolhida)</div><div class="v">'+Math.round(est)+' kWh</div><div class="n">faixa '+Math.round(lo)+' a '+Math.round(hi)+'</div></div>'
   +'<div class="card kpi"><div class="t">Faturado em set/out (média)</div><div class="v">384 kWh</div><div class="n">R$ 459,76 em média</div></div>'
   +'<div class="card kpi"><div class="t">Diferença mensal média</div><div class="v" style="color:'+cor+'">'+(dk>=0?'+':'')+Math.round(dk)+' kWh</div><div class="n">por mês, em set/out</div></div>'
   +'<div class="card kpi"><div class="t">Diferença financeira mensal média</div><div class="v" style="color:'+cor+'">'+(dm>=0?'':'−')+brl(Math.abs(dm))+'</div><div class="n">faixa '+brl(Math.max(dmLo,0))+' a '+brl(Math.max(dmHi,0))+' (usa a faixa da base)</div></div></div></div></div>'
@@ -417,7 +441,7 @@ function vSemana(){
   const porCat=Object.keys(CATS).map(k=>{const l=A.filter(vis).filter(a=>!S.off.has(a.id)&&a.cat===k);return {k,u:l.reduce((s,a)=>s+diaKWh(a,'util'),0),f:l.reduce((s,a)=>s+diaKWh(a,'fds'),0)}}).filter(x=>x.u+x.f>0);
   return '<div class="callout w"><b>Base escolhida:</b> '+BASES[S.base]+'. Leituras A e B conflitam sobre o que estava ligado em 28→30/10 (veja o quadro "Como chegamos nos números medidos"). Troque a base no filtro acima e compare.</div>'
   +perdaCard(tot)
-  +'<div class="grid g2"><div class="card"><h2>Semana típica — kWh por dia (mediana)</h2>'+colsV(val,{labels:dias,colors:val.map((_,i)=>i<5?'#3987e5':'#9085e9'),fmt:f2})
+  +'<div class="grid g2"><div class="card"><h2>Semana típica — kWh por dia (mediana)</h2>'+colsV(val,{labels:dias,colors:val.map((_,i)=>i<5?'var(--c1)':'var(--c7)'),fmt:f2})
   +'<div class="small">Dia útil: <b>'+f1(u.med)+'</b> ('+f1(u.lo)+' a '+f1(u.hi)+') · fim de semana: <b>'+f1(f.med)+'</b> ('+f1(f.lo)+' a '+f1(f.hi)+') kWh/dia.<br>Semana: <b>'+f1(semT)+' kWh</b> ('+f1(semLo)+' a '+f1(semHi)+') = '+brl(semT*S.tar)+'.</div></div>'
   +'<div class="card"><h2>Mês de 30 dias e outubro (31 dias)</h2><table><thead><tr><th>Base</th><th class="r">Dia útil</th><th class="r">Sáb/Dom</th><th class="r">30 dias (faixa)</th><th class="r">R$</th></tr></thead><tbody>'+linhas+'</tbody></table>'
   +'<div class="small">Outubro (22 dias úteis + 9 sáb/dom), base escolhida: <b>'+Math.round(tot.out.med)+' kWh</b> ('+Math.round(tot.out.lo)+' a '+Math.round(tot.out.hi)+').</div></div></div>'
@@ -445,8 +469,8 @@ function vFat(){
    <div style="overflow-x:auto"><table><thead><tr><th>Mês</th><th class="r">kWh</th><th class="r">Sem a Luz</th><th class="r">Ajustes</th><th class="r">Total</th><th class="r">R$/kWh*</th><th>Fechada em</th><th class="r">kWh/dia**</th><th>Situação</th><th>Arquivo</th></tr></thead><tbody>${rows}</tbody></table></div>
    <div class="small">* Sem a Luz ÷ kWh (set/out: total ÷ kWh, inclui impostos e ajustes). ** Só onde há dois fechamentos consecutivos; fechamento da fatura da Luz não é data de leitura do medidor, serve só como indicação.</div></div>
    <div class="grid g2" style="margin-top:14px">
-   <div class="card"><h2>kWh faturado × modelo</h2>${colsV(vs.map(f=>f.k),{labels:vs.map(f=>f.m),colors:vs.map(f=>f.flag==='dup'?'#c98500':f.f==='neo'?'#e66767':'#3987e5'),line:all,fmt:x=>Math.round(x)+''})}</div>
-   <div class="card"><h2>Preço por kWh (R$)</h2>${colsV(tarSerie.map(x=>x.v),{labels:tarSerie.map(x=>x.m),colors:tarSerie.map(()=>'#8f9bc7'),fmt:f2})}<div class="small">Sobe de 1,07 (jan) para 1,22 (set). Parte é bandeira/tarifa; só a fatura da Neoenergia mostra a composição.</div></div></div>
+   <div class="card"><h2>kWh faturado × modelo</h2>${colsV(vs.map(f=>f.k),{labels:vs.map(f=>f.m),colors:vs.map(f=>f.flag==='dup'?'var(--c4)':f.f==='neo'?'var(--bad2)':'var(--c1)'),line:all,fmt:x=>Math.round(x)+''})}</div>
+   <div class="card"><h2>Preço por kWh (R$)</h2>${colsV(tarSerie.map(x=>x.v),{labels:tarSerie.map(x=>x.m),colors:tarSerie.map(()=>'var(--mut)'),fmt:f2})}<div class="small">Sobe de 1,07 (jan) para 1,22 (set). Parte é bandeira/tarifa; só a fatura da Neoenergia mostra a composição.</div></div></div>
    <div class="card" style="margin-top:14px"><h2>Conta dos ajustes</h2>
     <table><tbody><tr><td>Jul: sem a Luz 309,40 − desconto 18,64 + ajuste 95,92</td><td class="r"><b>386,68</b></td></tr><tr><td>Ago: sem a Luz 221,30 − desconto 14,34 − ajuste 56,72 (bandeira −5,01 aparece no detalhe)</td><td class="r"><b>150,24</b></td></tr><tr><td>Líquido dos ajustes jul + ago</td><td class="r"><b>+39,20</b></td></tr></tbody></table>
     <div class="small">As faturas dizem que "Outros acréscimos e deduções" são "bônus de indicação, ajustes de valores não cobrados em meses anteriores e parcelamentos", sem discriminar quanto é cada um.</div></div>`;
@@ -461,7 +485,7 @@ function vTeste(){
   const completo=minimo+refrig+banho+forno+lav;
   const rows=[['28→29/10','4','Só geladeira + essenciais; cervejeira, adega, freezer, lavadora e ar desligados (desde 28/10 19h)',minimo],['29→30/10','3','Idem; leitura de 05h25 com disjuntores dos circuitos desligados, só a geladeira',minimo],['30→31/10','10','Tudo religado às 13h, 2 banhos, forno, lavadora',completo]];
   return `<div class="grid g2"><div class="card"><h2>Leituras do medidor (energia ativa, kWh)</h2>
-  ${colsV([4,3,10],{labels:['28→29/10','29→30/10','30→31/10'],colors:['#3987e5','#3987e5','#e66767'],fmt:x=>x+' kWh'})}
+  ${colsV([4,3,10],{labels:['28→29/10','29→30/10','30→31/10'],colors:['var(--c1)','var(--c1)','var(--bad2)'],fmt:x=>x+' kWh'})}
   <table><thead><tr><th>Data</th><th class="r">Leitura</th><th class="r">Δ</th></tr></thead><tbody>${LEIT.map((x,i)=>`<tr><td>${x.d}</td><td class="r">${x.k.toLocaleString('pt-BR')}</td><td class="r">${i?x.k-LEIT[i-1].k:'—'}</td></tr>`).join('')}</tbody></table>
   <div class="small">Fotos de 31/10 com chave geral e DR desligados também mostram 16.911 kWh, sem alteração. Isso <b>não</b> prova ausência de consumo (duração desconhecida e resolução do visor).</div></div>
   <div class="card"><h2>Teste × modelo (${S_()})</h2><table><thead><tr><th>Intervalo</th><th class="r">Medido</th><th class="r">Modelo</th><th>Cargas ligadas</th></tr></thead><tbody>
@@ -584,7 +608,9 @@ function countUp(root){
     const t0=performance.now(),dur=1100+Math.random()*400;
     const step=t=>{const k=Math.min((t-t0)/dur,1),e=1-Math.pow(1-k,4);put(from+(to-from)*e);if(k<1)requestAnimationFrame(step);else el.dataset.run=el.dataset.to+'|'+el.textContent};requestAnimationFrame(step)});
 }
+function setTema(t,save){document.documentElement.setAttribute('data-theme',t);try{if(save)localStorage.setItem('tema',t)}catch(e){}const l=document.getElementById('tlab');if(l)l.textContent=t==='light'?'Escuro':'Claro';const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light'?'#eef2fb':'#060916'}
 function initFx(){
+  setTema(document.documentElement.getAttribute('data-theme')||'dark',false);document.getElementById('tema').onclick=()=>setTema(document.documentElement.getAttribute('data-theme')==='light'?'dark':'light',true);
   const tip=document.createElement('div');tip.id='tip';document.body.appendChild(tip);
   const show=(e)=>{const t=e.target.closest&&e.target.closest('[data-tip]');if(!t){tip.classList.remove('on');return}
     tip.textContent=t.getAttribute('data-tip');const p=e.touches?e.touches[0]:e;tip.style.left=Math.max(130,Math.min(innerWidth-130,p.clientX))+'px';tip.style.top=p.clientY+'px';tip.classList.add('on')};
